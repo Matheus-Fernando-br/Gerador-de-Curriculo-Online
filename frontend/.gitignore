@@ -1,0 +1,11 @@
+# python
+backend/venv/
+backend/__pycache__/
+*.pyc
+
+# node
+frontend/node_modules/
+
+# misc
+.DS_Store
+
