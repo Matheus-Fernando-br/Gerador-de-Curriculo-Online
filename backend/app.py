@@ -1,4 +1,3 @@
-# backend/app.py
 from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from io import BytesIO
@@ -12,24 +11,29 @@ import datetime
 import os
 
 app = Flask(__name__)
-CORS(app)
 
-# Se você colocou DejaVuSans.ttf em ./backend, ele será usado (suporta acentuação)
+# Habilita CORS globalmente (para permitir que o frontend acesse)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+# Fonte (suporte a acentuação se o arquivo existir)
 FONT_PATH = os.path.join(os.path.dirname(__file__), "DejaVuSans.ttf")
 if os.path.exists(FONT_PATH):
     pdfmetrics.registerFont(TTFont("DejaVu", FONT_PATH))
     DEFAULT_FONT = "DejaVu"
 else:
-    DEFAULT_FONT = "Helvetica"  # fallback (pode não mostrar alguns acentos)
+    DEFAULT_FONT = "Helvetica"
 
+# Configurações de página
 PAGE_WIDTH, PAGE_HEIGHT = A4
 MARGIN = 20 * mm
+
 
 def create_pdf(data):
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     y = PAGE_HEIGHT - MARGIN
 
+    # Dados do currículo
     name = data.get("nome", "")
     phone = data.get("telefone", "")
     email = data.get("email", "")
@@ -53,6 +57,7 @@ def create_pdf(data):
     c.line(MARGIN, y, PAGE_WIDTH - MARGIN, y)
     y -= 8 * mm
 
+    # Função auxiliar para seções
     def draw_section(title, text):
         nonlocal y
         if not text:
@@ -61,7 +66,7 @@ def create_pdf(data):
         c.drawString(MARGIN, y, title)
         y -= 6 * mm
         c.setFont(DEFAULT_FONT, 11)
-        # quebra e wrap simples
+
         lines = []
         for paragraph in str(text).split("\n"):
             wrapped = simpleSplit(paragraph, DEFAULT_FONT, 11, PAGE_WIDTH - 2 * MARGIN)
@@ -69,6 +74,7 @@ def create_pdf(data):
                 lines.append("")
             else:
                 lines.extend(wrapped)
+
         for ln in lines:
             if y < MARGIN + 30:
                 c.showPage()
@@ -93,15 +99,25 @@ def create_pdf(data):
     buffer.seek(0)
     return buffer
 
+
 @app.route("/generate_pdf", methods=["POST"])
 def generate_pdf():
     data = request.get_json()
     if data is None:
         return jsonify({"error": "Nenhum JSON recebido"}), 400
+
     buffer = create_pdf(data)
     name = data.get("nome", "curriculo")
     filename = f"curriculo_{name.replace(' ', '_')}.pdf"
-    return send_file(buffer, as_attachment=True, download_name=filename, mimetype="application/pdf")
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=filename,
+        mimetype="application/pdf",
+    )
+
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
