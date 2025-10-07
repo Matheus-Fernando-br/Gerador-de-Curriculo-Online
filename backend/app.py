@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, make_response
 from flask_cors import CORS
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -23,12 +23,7 @@ MARGIN_TOP = 30 * mm
 MARGIN_BOTTOM = 30 * mm
 usable_width = PAGE_WIDTH - 2 * MARGIN_LEFT_RIGHT
 
-
-# ------------------------------
-# Funções auxiliares
-# ------------------------------
 def draw_wrapped(c, text, fontname, fontsize, x, y, max_width, leading=None):
-    """Desenha texto quebrado (multi-line) retornando novo y."""
     if leading is None:
         leading = fontsize + 2
     lines = []
@@ -48,15 +43,11 @@ def draw_wrapped(c, text, fontname, fontsize, x, y, max_width, leading=None):
         y -= leading
     return y
 
-
 def validar_dados(data):
-    """Valida dados obrigatórios antes de gerar o PDF."""
     obrigatorios = ["nome", "telefone", "email", "objetivo"]
     for campo in obrigatorios:
         if not data.get(campo):
             return f"O campo '{campo}' é obrigatório."
-
-    # Validação de datas (formações e experiências)
     def validar_datas(lista, tipo):
         for item in lista:
             inicio = item.get("inicio")
@@ -75,7 +66,6 @@ def validar_dados(data):
         erro = validar_datas(data["formacoes"], "formações")
         if erro:
             return erro
-
     if "experiencias" in data:
         erro = validar_datas(data["experiencias"], "experiências")
         if erro:
@@ -83,10 +73,6 @@ def validar_dados(data):
 
     return None
 
-
-# ------------------------------
-# Geração do PDF
-# ------------------------------
 def create_pdf(data):
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
@@ -114,7 +100,6 @@ def create_pdf(data):
     c.line(MARGIN_LEFT_RIGHT, y, PAGE_WIDTH - MARGIN_LEFT_RIGHT, y)
     y -= 8 * mm
 
-    # Seções
     def section_title(title):
         nonlocal y
         c.setFont(FONT_BOLD, 14)
@@ -148,12 +133,15 @@ def create_pdf(data):
             fim = f.get("fim", "")
 
             periodo = ""
-            if inicio and fim:
-                periodo = f"{inicio} a {fim}"
-            elif inicio:
-                periodo = f"Início: {inicio}"
-            elif fim:
-                periodo = f"Término: {fim}"
+            if status == "Cursando":
+                periodo = f"{inicio} até o momento"
+            else:
+                if inicio and fim:
+                    periodo = f"{inicio} a {fim}"
+                elif inicio:
+                    periodo = f"Início: {inicio}"
+                elif fim:
+                    periodo = f"Término: {fim}"
 
             linha = " | ".join([p for p in [curso, escola, status, periodo] if p])
             if linha:
@@ -168,26 +156,33 @@ def create_pdf(data):
             cargo = e.get("cargo", "")
             inicio = e.get("inicio", "")
             fim = e.get("fim", "")
-            periodo = ""
-            if inicio and fim:
-                periodo = f"{inicio} a {fim}"
-            elif inicio:
-                periodo = f"Início: {inicio}"
-            elif fim:
-                periodo = f"Término: {fim}"
+            status = e.get("status", "")  # vamos supor que você inclua status no front
 
+            # Determinar período
+            periodo = ""
+            if status == "Cursando":
+                periodo = f"{inicio} até o momento"
+            else:
+                if inicio and fim:
+                    periodo = f"{inicio} a {fim}"
+                elif inicio:
+                    periodo = f"Início: {inicio}"
+                elif fim:
+                    periodo = f"Término: {fim}"
+
+            # Desenhar empresa e cargo
             if empresa:
                 subsection(empresa)
             if cargo or periodo:
                 linha = " | ".join([p for p in [cargo, periodo] if p])
                 texto_normal(linha)
 
-            acoes = e.get("acoes", [])
-            if acoes:
+            atribuicoes = e.get("atribuicoes", [])
+            if atribuicoes:
                 c.setFont(FONT_BOLD, 10)
                 c.drawString(MARGIN_LEFT_RIGHT, y, "Atribuições:")
                 y -= 5 * mm
-                for a in acoes:
+                for a in atribuicoes:
                     if y < MARGIN_BOTTOM + 30:
                         c.showPage()
                         y = PAGE_HEIGHT - MARGIN_TOP
@@ -215,26 +210,32 @@ def create_pdf(data):
     buffer.seek(0)
     return buffer
 
-
-# ------------------------------
-# Rota principal
-# ------------------------------
 @app.route("/generate_pdf", methods=["POST"])
 def generate_pdf():
-    data = request.get_json()
-    if data is None:
-        return jsonify({"error": "Nenhum JSON recebido"}), 400
+    try:
+        data = request.get_json()
+        if data is None:
+            return jsonify({"error": "Nenhum JSON recebido"}), 400
 
-    erro = validar_dados(data)
-    if erro:
-        return jsonify({"error": erro}), 400
+        erro = validar_dados(data)
+        if erro:
+            return jsonify({"error": erro}), 400
 
-    buffer = create_pdf(data)
-    name = data.get("nome", "curriculo")
-    filename = f"curriculo_{name.replace(' ', '_')}.pdf"
+        buffer = create_pdf(data)
+        content = buffer.getvalue()
+        buffer.seek(0)
 
-    return send_file(buffer, as_attachment=True, download_name=filename, mimetype="application/pdf")
+        name = data.get("nome", "curriculo")
+        filename = f"curriculo_{name.replace(' ', '_')}.pdf"
 
+        resp = make_response(content)
+        resp.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        resp.headers["Content-Type"] = "application/pdf"
+        resp.headers["Content-Length"] = str(len(content))
+        return resp
+    except Exception as ex:
+        # Retornar erro detalhado
+        return jsonify({"error": f"Erro interno no servidor: {str(ex)}"}), 500
 
 if __name__ == "__main__":
     import os

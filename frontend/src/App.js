@@ -23,7 +23,6 @@ function App() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let val = value;
-
     if (name === "telefone") {
       val = val.replace(/\D/g, "");
       if (val.length > 13) return;
@@ -34,13 +33,12 @@ function App() {
       if (val.length > 5) return;
     }
     if (["nome", "cidade", "objetivo"].includes(name)) val = capitalize(val);
-
     setForm((prev) => ({ ...prev, [name]: val }));
   };
 
   const handleArrayChange = (index, field, subField, value) => {
     const updated = [...form[field]];
-    updated[index][subField] = value;
+    updated[index] = { ...updated[index], [subField]: value };
     setForm((prev) => ({ ...prev, [field]: updated }));
   };
 
@@ -60,7 +58,6 @@ function App() {
       alert("Preencha os campos obrigatórios!");
       return;
     }
-
     if (!form.email.includes("@")) {
       alert("E-mail inválido!");
       return;
@@ -68,13 +65,17 @@ function App() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/generate_pdf`, {
+      const res = await fetch("https://gerador-de-curriculo-online-production.up.railway.app/generate_pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
-      if (!res.ok) throw new Error("Erro ao gerar PDF");
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("Erro no servidor:", errText);
+        throw new Error(`Erro ao gerar PDF: ${errText}`);
+      }
 
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
@@ -98,7 +99,6 @@ function App() {
       <section className="form-section">
         <h1>GERADOR DE CURRÍCULO ONLINE</h1>
         <form onSubmit={handleSubmit}>
-          {/* Campos principais */}
           <div className="input-grid">
             <label>
               Nome *
@@ -161,12 +161,26 @@ function App() {
                   <option>Cursando</option>
                   <option>Trancado</option>
                 </select>
-                <input type="month" value={item.inicio} onChange={(e) => handleArrayChange(i, "formacoes", "inicio", e.target.value)} />
-                <input type="month" value={item.fim} onChange={(e) => handleArrayChange(i, "formacoes", "fim", e.target.value)} />
-                <button type="button" className="remove-btn" onClick={() => removeItem("formacoes", i)}>Remover</button>
+                <input
+                  type="month"
+                  value={item.inicio}
+                  onChange={(e) => handleArrayChange(i, "formacoes", "inicio", e.target.value)}
+                />
+                <input
+                  type="month"
+                  value={item.fim}
+                  onChange={(e) => handleArrayChange(i, "formacoes", "fim", e.target.value)}
+                />
+                <button type="button" className="remove-btn" onClick={() => removeItem("formacoes", i)}>
+                  Remover
+                </button>
               </div>
             ))}
-            <button type="button" className="add-btn" onClick={() => addItem("formacoes", { curso: "", escola: "", status: "", inicio: "", fim: "" })}>
+            <button
+              type="button"
+              className="add-btn"
+              onClick={() => addItem("formacoes", { curso: "", escola: "", status: "", inicio: "", fim: "" })}
+            >
               + Adicionar formação
             </button>
           </div>
@@ -181,7 +195,9 @@ function App() {
                   value={item.descricao}
                   onChange={(e) => handleArrayChange(i, "conhecimentos", "descricao", capitalize(e.target.value))}
                 />
-                <button type="button" className="remove-btn" onClick={() => removeItem("conhecimentos", i)}>Remover</button>
+                <button type="button" className="remove-btn" onClick={() => removeItem("conhecimentos", i)}>
+                  Remover
+                </button>
               </div>
             ))}
             <button type="button" className="add-btn" onClick={() => addItem("conhecimentos", { descricao: "" })}>
@@ -194,14 +210,36 @@ function App() {
             <label>Cursos de Qualificação</label>
             {form.cursos.map((item, i) => (
               <div key={i} className="multi-input">
-                <input placeholder="Nome do Curso" value={item.curso} onChange={(e) => handleArrayChange(i, "cursos", "curso", capitalize(e.target.value))} />
-                <input placeholder="Instituição" value={item.instituicao} onChange={(e) => handleArrayChange(i, "cursos", "instituicao", capitalize(e.target.value))} />
-                <input type="month" value={item.inicio} onChange={(e) => handleArrayChange(i, "cursos", "inicio", e.target.value)} />
-                <input type="month" value={item.fim} onChange={(e) => handleArrayChange(i, "cursos", "fim", e.target.value)} />
-                <button type="button" className="remove-btn" onClick={() => removeItem("cursos", i)}>Remover</button>
+                <input
+                  placeholder="Nome do Curso"
+                  value={item.curso}
+                  onChange={(e) => handleArrayChange(i, "cursos", "curso", capitalize(e.target.value))}
+                />
+                <input
+                  placeholder="Instituição"
+                  value={item.instituicao}
+                  onChange={(e) => handleArrayChange(i, "cursos", "instituicao", capitalize(e.target.value))}
+                />
+                <input
+                  type="month"
+                  value={item.inicio}
+                  onChange={(e) => handleArrayChange(i, "cursos", "inicio", e.target.value)}
+                />
+                <input
+                  type="month"
+                  value={item.fim}
+                  onChange={(e) => handleArrayChange(i, "cursos", "fim", e.target.value)}
+                />
+                <button type="button" className="remove-btn" onClick={() => removeItem("cursos", i)}>
+                  Remover
+                </button>
               </div>
             ))}
-            <button type="button" className="add-btn" onClick={() => addItem("cursos", { curso: "", instituicao: "", inicio: "", fim: "" })}>
+            <button
+              type="button"
+              className="add-btn"
+              onClick={() => addItem("cursos", { curso: "", instituicao: "", inicio: "", fim: "" })}
+            >
               + Adicionar curso
             </button>
           </div>
@@ -211,10 +249,34 @@ function App() {
             <label>Experiência Profissional</label>
             {form.experiencias.map((item, i) => (
               <div key={i} className="multi-input">
-                <input placeholder="Empresa" value={item.empresa} onChange={(e) => handleArrayChange(i, "experiencias", "empresa", capitalize(e.target.value))} />
-                <input placeholder="Cargo" value={item.cargo} onChange={(e) => handleArrayChange(i, "experiencias", "cargo", capitalize(e.target.value))} />
-                <input type="month" value={item.inicio} onChange={(e) => handleArrayChange(i, "experiencias", "inicio", e.target.value)} />
-                <input type="month" value={item.fim} onChange={(e) => handleArrayChange(i, "experiencias", "fim", e.target.value)} />
+                <input
+                  placeholder="Empresa"
+                  value={item.empresa}
+                  onChange={(e) => handleArrayChange(i, "experiencias", "empresa", capitalize(e.target.value))}
+                />
+                <input
+                  placeholder="Cargo"
+                  value={item.cargo}
+                  onChange={(e) => handleArrayChange(i, "experiencias", "cargo", capitalize(e.target.value))}
+                />
+                <select
+                  value={item.status || ""}
+                  onChange={(e) => handleArrayChange(i, "experiencias", "status", e.target.value)}
+                >
+                  <option value="">Status</option>
+                  <option>Concluído</option>
+                  <option>Cursando</option>
+                </select>
+                <input
+                  type="month"
+                  value={item.inicio}
+                  onChange={(e) => handleArrayChange(i, "experiencias", "inicio", e.target.value)}
+                />
+                <input
+                  type="month"
+                  value={item.fim}
+                  onChange={(e) => handleArrayChange(i, "experiencias", "fim", e.target.value)}
+                />
                 <label>Atribuições</label>
                 {(item.atribuicoes || []).map((atr, j) => (
                   <input
@@ -228,15 +290,29 @@ function App() {
                     }}
                   />
                 ))}
-                <button type="button" className="add-btn" onClick={() => {
-                  const exp = [...form.experiencias];
-                  exp[i].atribuicoes = [...(exp[i].atribuicoes || []), ""];
-                  setForm((prev) => ({ ...prev, experiencias: exp }));
-                }}>+ Adicionar atribuição</button>
-                <button type="button" className="remove-btn" onClick={() => removeItem("experiencias", i)}>Remover</button>
+                <button
+                  type="button"
+                  className="add-btn"
+                  onClick={() => {
+                    const exp = [...form.experiencias];
+                    exp[i].atribuicoes = [...(exp[i].atribuicoes || []), ""];
+                    setForm((prev) => ({ ...prev, experiencias: exp }));
+                  }}
+                >
+                  + Adicionar atribuição
+                </button>
+                <button type="button" className="remove-btn" onClick={() => removeItem("experiencias", i)}>
+                  Remover
+                </button>
               </div>
             ))}
-            <button type="button" className="add-btn" onClick={() => addItem("experiencias", { empresa: "", cargo: "", inicio: "", fim: "", atribuicoes: [] })}>
+            <button
+              type="button"
+              className="add-btn"
+              onClick={() =>
+                addItem("experiencias", { empresa: "", cargo: "", status: "", inicio: "", fim: "", atribuicoes: [] })
+              }
+            >
               + Adicionar experiência
             </button>
           </div>
@@ -246,15 +322,24 @@ function App() {
             <label>Idiomas</label>
             {form.idiomas.map((item, i) => (
               <div key={i} className="multi-input">
-                <input placeholder="Idioma" value={item.idioma} onChange={(e) => handleArrayChange(i, "idiomas", "idioma", capitalize(e.target.value))} />
-                <select value={item.nivel} onChange={(e) => handleArrayChange(i, "idiomas", "nivel", e.target.value)}>
+                <input
+                  placeholder="Idioma"
+                  value={item.idioma}
+                  onChange={(e) => handleArrayChange(i, "idiomas", "idioma", capitalize(e.target.value))}
+                />
+                <select
+                  value={item.nivel}
+                  onChange={(e) => handleArrayChange(i, "idiomas", "nivel", e.target.value)}
+                >
                   <option value="">Nível</option>
                   <option>Básico</option>
                   <option>Intermediário</option>
                   <option>Avançado</option>
                   <option>Fluente</option>
                 </select>
-                <button type="button" className="remove-btn" onClick={() => removeItem("idiomas", i)}>Remover</button>
+                <button type="button" className="remove-btn" onClick={() => removeItem("idiomas", i)}>
+                  Remover
+                </button>
               </div>
             ))}
             <button type="button" className="add-btn" onClick={() => addItem("idiomas", { idioma: "", nivel: "" })}>
