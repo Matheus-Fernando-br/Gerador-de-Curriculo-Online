@@ -119,5 +119,9 @@ def generate_pdf():
 
 
 if __name__ == "__main__":
+    from waitress import serve
+    import os
+
     port = int(os.environ.get("PORT", 5000))
+    print(f"Servidor rodando na porta {port}")
     app.run(host="0.0.0.0", port=port)
