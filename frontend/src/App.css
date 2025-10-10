@@ -1,17 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root {
+  --cor-bg: linear-gradient(180deg, #0b2494d8 0%, #555 70%);
+  --cor-primaria: #d10000;
+  --cor-primaria-apagada: #ff0000c2;
+  --cor-branca: #fff;
+  --cor-preta: #000;
+  --cor-apagada: #ffffff1c;
+  --cor-fundo: rgba(100, 100, 100, 0.082);
+  --cor-branca-apagada: rgba(255, 255, 255, 0.726);
+  --font-main: "Fjalla One", sans-serif;
+  --font-inputs: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --font-title: "BBH Sans Bartle", sans-serif;
 }
 
-html,
-body {
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
   min-height: 100vh;
   width: 100vw;
-  font-family: "Comic Neue", cursive;
-  background: linear-gradient(180deg, #ff4d4d 0%, #555 100%);
+  font-family: var(--font-main);
+  background: url(../public/fundo.jpg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,43 +41,60 @@ body {
 /* Seção do formulário */
 .form-section {
   width: 90vw;
-  max-width: 50rem;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  max-width: 60rem;
+  background: var(--cor-fundo);
+  backdrop-filter: blur(20px);
   border-radius: 1rem;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--cor-branca-apagada);
+  box-shadow: 0 0 25px var(--cor-branca);
   padding: 3rem;
-  color: #fff;
+  color: var(--cor-branca);
   transition: all 0.3s ease-in-out;
 }
 
 /* Título */
 .form-section h1 {
   text-align: center;
-  margin-bottom: 2rem;
+  font-family: var(--font-title);
+  margin-bottom: 1.6rem;
   font-size: 2.2rem;
   font-weight: 700;
 }
 
-/* Labels e campos */
-label {
+/* Categoria (títulos das seções) */
+.section-title {
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* Labels e campos - label com descrição acima do input */
+.field-label {
   display: flex;
   flex-direction: column;
   font-weight: 700;
-  margin-top: 1rem;
-  color: #fff;
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
 }
 
-input,
-textarea,
-select {
+.helper {
+  font-weight: 400;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+/* Inputs em geral */
+input, textarea, select {
   margin-top: 0.5rem;
   padding: 0.6rem;
   border-radius: 0.5rem;
   border: none;
   outline: none;
-  font-family: "Comic Neue", cursive;
+  font-family: var(--font-inputs);
   font-size: 1rem;
 }
 
@@ -78,100 +105,143 @@ select {
   gap: 1rem;
 }
 
-/* Botão principal */
+/* Botões */
 .submit-btn {
   width: 100%;
   margin-top: 2rem;
   padding: 0.9rem;
-  background-color: #d10000;
+  background-color: var(--cor-primaria);
   color: #fff;
   font-weight: 700;
   font-size: 1.2rem;
   border: none;
   border-radius: 0.8rem;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.2s;
 }
 
-.submit-btn:hover {
-  background-color: #ff0000a8;
-  transform: scale(0.98);
-}
+.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-primaria-apagada);}
 
-/* Botão adicionar */
+/* add / remove */
 .add-btn {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: var(--cor-branca-apagada);
   border: none;
   border-radius: 0.5rem;
-  color: #d10000;
+  color: var(--cor-primaria);
   font-weight: 700;
   padding: 0.4rem 0.8rem;
   margin-top: 0.6rem;
   cursor: pointer;
-  font-family: "Comic Neue", cursive;
-  transition: all 0.3s ease-in-out;
 }
 
-.add-btn:hover {
-  background-color: #f0f0f0;
-  transform: scale(0.98);
-}
-
-/* Botão remover */
 .remove-btn {
-  background-color: #ff4d4d;
-  color: #fff;
+  background-color: #ff0000d5;
+  color: var(--cor-branca);
   border: none;
   border-radius: 0.5rem;
-  padding: 0.4rem 0.8rem;
+  margin-top: .5rem;
+  padding: 0.8rem 0.8rem;
   font-weight: 700;
-  margin-top: 0.5rem;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s;
 }
 
-.remove-btn:hover {
-  background-color: #ff0000c4;
-  transform: scale(0.98);
-}
+.remove-btn:hover { background-color: #b60000d5; transform: scale(0.98); }
 
 /* Campos dinâmicos */
 .dynamic-field {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--cor-apagada);
   border-radius: 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--cor-branca-apagada);
 }
 
+/* Multi input rows */
 .multi-input {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
+  align-items: start;
   margin-top: 0.6rem;
 }
 
-/* Responsividade */
+.divider {
+ grid-column: 1 / -1;
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--cor-branca-apagada);
+  margin: .5rem 0;
+}
+
+/* When there are many fields (like atribuicoes) fall back to column */
+.multi-input.stack {
+  grid-template-columns: 1fr;
+}
+
+/* Hidden with smooth height transition for "fim" quando cursando / trabalho atual */
+.hide-animate {
+  overflow: hidden;
+  transition: max-height 300ms ease, opacity 300ms ease;
+  max-height: 500px;
+  opacity: 1;
+}
+.hide-animate.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Corrige alinhamento e largura dos campos de data (início/fim) */
+.multi-input input[type="month"] {
+  width: 100%;
+}
+
+/* Garante que o campo 'fim' dentro da animação tenha o mesmo comportamento */
+.multi-input .hide-animate {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.multi-input .hide-animate input[type="month"] {
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.buttons-atribuições {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+}
+
+
+/* Cada campo de atribuição com botão ao lado */
+.atribuicao-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.atribuicao-item input {
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.atribuicao-item .remove-btn {
+  flex-shrink: 0;
+  width: 50px;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+
+
+/* Small responsive adjustments */
 @media (max-width: 900px) {
-  .form-section {
-    width: 85vw;
-    padding: 2rem;
-  }
-
-  .input-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-section h1 {
-    font-size: 1.7rem;
-  }
-
-  input,
-  textarea {
-    font-size: 0.95rem;
-  }
-
-  .multi-input {
-    flex-direction: column;
-  }
+  .form-section { width: 95vw; padding: 1.8rem; }
+  .input-grid { grid-template-columns: 1fr; }
+  .multi-input { grid-template-columns: 1fr; }
 }
