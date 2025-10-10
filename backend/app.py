@@ -25,6 +25,8 @@ MARGIN_TOP = 30 * mm
 MARGIN_BOTTOM = 30 * mm
 usable_width = PAGE_WIDTH - 2 * MARGIN_LEFT_RIGHT
 
+# mêses abreviados em pt-BR (minúsculos como no exemplo)
+MONTHS_PT_ABBR = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
 
 # ==============================
 # FUNÇÃO DE TEXTO AUTOMÁTICO
@@ -54,27 +56,34 @@ def draw_wrapped(c, text, fontname, fontsize, x, y, max_width, leading=None):
 
 
 # ==============================
-# FUNÇÕES DE VALIDAÇÃO
+# FUNÇÕES DE VALIDAÇÃO E DATA
 # ==============================
 def parse_data(valor):
+    """Tenta ler várias formatações (retorna datetime.date ou None)."""
     if not valor:
         return None
-    for fmt in ("%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y", "%Y-%m"):
+    if isinstance(valor, datetime.date):
+        return valor
+    fmt_candidates = ("%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y", "%Y-%m")
+    for fmt in fmt_candidates:
         try:
             if fmt == "%Y-%m":
-                valor += "-01"
-            return datetime.datetime.strptime(valor, "%Y-%m-%d").date()
-        except ValueError:
+                # valor já no formato YYYY-MM (input type=month)
+                # acrescenta dia 01 para parse
+                return datetime.datetime.strptime(valor + "-01", "%Y-%m-%d").date()
+            else:
+                return datetime.datetime.strptime(valor, fmt).date()
+        except Exception:
             continue
     return None
 
-def formatar_data_brasil(data_str):
-    """Converte uma string de data para formato DD/MM/YYYY."""
-    data = parse_data(data_str)
-    if data:
-        return data.strftime("%d/%m/%Y")
-    return data_str or ""
-
+def formatar_mes_ano(data_str):
+    """Retorna mes_abrev/ANO (ex: 'fev/2024') a partir de string ou date."""
+    d = parse_data(data_str)
+    if not d:
+        return ""
+    mes = MONTHS_PT_ABBR[d.month - 1]
+    return f"{mes}/{d.year}"
 
 def validar_dados(data):
     """Valida campos obrigatórios e datas."""
@@ -87,10 +96,11 @@ def validar_dados(data):
         for item in lista:
             inicio = parse_data(item.get("inicio"))
             fim = parse_data(item.get("fim"))
+            # se fim não existir e trabalhoAtual for True, ok
             if inicio and fim and inicio > fim:
                 return f"A data de início é maior que a de término em '{tipo}'."
-            if (item.get("inicio") and not inicio) or (item.get("fim") and not fim):
-                return f"Datas inválidas em '{tipo}'. Use o formato DD/MM/YYYY."
+            if (item.get("inicio") and not inicio) or (item.get("fim") and item.get("fim") and not fim):
+                return f"Datas inválidas em '{tipo}'. Use formato válido."
         return None
 
     if "formacoes" in data:
@@ -120,6 +130,7 @@ def create_pdf(data):
     telefone = data.get("telefone", "")
     email = data.get("email", "")
     cidade = data.get("cidade", "")
+    cnh = data.get("cnh", "")
     objetivo = data.get("objetivo", "")
 
     c.setFont(FONT_BOLD, 16)
@@ -129,6 +140,8 @@ def create_pdf(data):
     contato = f"Telefone: {telefone}   |   Email: {email}"
     if cidade:
         contato += f"   |   Cidade: {cidade}"
+    if cnh:
+        contato += f"   |   CNH: {str(cnh).upper()}"
     c.setFont(FONT_REGULAR, 10)
     c.drawCentredString(PAGE_WIDTH / 2, y, contato)
     y -= 8 * mm
@@ -140,12 +153,14 @@ def create_pdf(data):
     # Funções locais de escrita
     def section_title(title):
         nonlocal y
+        # espaço extra antes do título para separar da seção anterior
+        y -= 3 * mm
         if y < MARGIN_BOTTOM + 20:
             c.showPage()
             y = PAGE_HEIGHT - MARGIN_TOP
         c.setFont(FONT_BOLD, 14)
         c.drawString(MARGIN_LEFT_RIGHT, y, title)
-        y -= 7 * mm
+        y -= 7 * mm  # espaço após título
 
     def subsection(title):
         nonlocal y
@@ -156,9 +171,9 @@ def create_pdf(data):
         c.drawString(MARGIN_LEFT_RIGHT, y, title)
         y -= 6 * mm
 
-    def texto_normal(text):
+    def texto_normal(text, fontname=FONT_REGULAR, fontsize=10, leading=12):
         nonlocal y
-        y = draw_wrapped(c, text, FONT_REGULAR, 10, MARGIN_LEFT_RIGHT, y, usable_width, leading=12)
+        y = draw_wrapped(c, text, fontname, fontsize, MARGIN_LEFT_RIGHT, y, usable_width, leading=leading)
         y -= 4 * mm
 
     # Objetivo
@@ -174,12 +189,12 @@ def create_pdf(data):
             curso = f.get("curso", "")
             escola = f.get("escola", "")
             status = f.get("status", "")
-            inicio = formatar_data_brasil(f.get("inicio"))
-            fim = formatar_data_brasil(f.get("fim"))
+            inicio = formatar_mes_ano(f.get("inicio"))
+            fim = formatar_mes_ano(f.get("fim"))
 
             periodo = ""
-            if status.lower() == "cursando":
-                periodo = f"{inicio} até o momento"
+            if str(status).lower() == "cursando":
+                periodo = f"{inicio} até o momento" if inicio else "Cursando"
             elif inicio and fim:
                 periodo = f"{inicio} a {fim}"
             elif inicio:
@@ -187,9 +202,74 @@ def create_pdf(data):
             elif fim:
                 periodo = f"Término: {fim}"
 
-            linha = " | ".join([p for p in [curso, escola, status, periodo] if p])
+            # montar a linha e imprimir com marcador seta
+            parts = [p for p in [curso, escola, status if status else None, periodo if periodo else None] if p]
+            linha = " | ".join(parts)
             if linha:
-                texto_normal(linha)
+                # bullet seta antes de cada formação
+                if y < MARGIN_BOTTOM + 30:
+                    c.showPage()
+                    y = PAGE_HEIGHT - MARGIN_TOP
+                c.setFont(FONT_REGULAR, 10)
+                c.drawString(MARGIN_LEFT_RIGHT + 4 * mm, y, u"\u2192 " + linha)  # seta
+                y -= 6 * mm
+        y -= 4 * mm
+
+    # Conhecimentos
+    conhecimentos = data.get("conhecimentos", [])
+    # aceitar também formatos que possuam 'descricao' ou 'categoria' ou strings simples
+    if conhecimentos:
+        section_title("Conhecimentos")
+        for k in conhecimentos:
+            desc = ""
+            if isinstance(k, dict):
+                desc = k.get("descricao") or k.get("categoria") or ""
+            else:
+                desc = str(k)
+            if desc:
+                if y < MARGIN_BOTTOM + 30:
+                    c.showPage()
+                    y = PAGE_HEIGHT - MARGIN_TOP
+                c.setFont(FONT_REGULAR, 10)
+                c.drawString(MARGIN_LEFT_RIGHT + 4 * mm, y, u"\u2022 " + desc)  # bolinha
+                y -= 6 * mm
+        y -= 4 * mm
+
+    # Cursos (compatível com 'cursos' e 'cursosQualificacoes')
+    cursos_list = data.get("cursos", []) or data.get("cursosQualificacoes", [])
+    if cursos_list:
+        section_title("Cursos e Qualificações")
+        for cq in cursos_list:
+            if isinstance(cq, dict):
+                curso = cq.get("curso", "")
+                instituicao = cq.get("instituicao", "")
+                duracao = cq.get("duracao", "")
+                ano = cq.get("ano", "")
+                inicio = formatar_mes_ano(cq.get("inicio"))
+                fim = formatar_mes_ano(cq.get("fim"))
+            else:
+                curso = str(cq)
+                instituicao = duracao = ano = inicio = fim = ""
+
+            # Priorizar período se existir
+            periodo = ""
+            if inicio and fim:
+                periodo = f"{inicio} a {fim}"
+            elif inicio:
+                periodo = f"{inicio}"
+            elif ano:
+                periodo = str(ano)
+
+            parts = [p for p in [curso, instituicao, duracao, periodo] if p]
+            linha = " | ".join(parts)
+            if linha:
+                if y < MARGIN_BOTTOM + 30:
+                    c.showPage()
+                    y = PAGE_HEIGHT - MARGIN_TOP
+                c.setFont(FONT_REGULAR, 10)
+                c.drawString(MARGIN_LEFT_RIGHT + 4 * mm, y, u"\u2192 " + linha)  # seta
+                y -= 6 * mm
+        y -= 4 * mm
 
     # Experiência
     experiencias = data.get("experiencias", [])
@@ -198,46 +278,68 @@ def create_pdf(data):
         for e in experiencias:
             empresa = e.get("empresa", "")
             cargo = e.get("cargo", "")
-            inicio = formatar_data_brasil(e.get("inicio"))
-            fim = formatar_data_brasil(e.get("fim"))
-            status = e.get("status", "")
-            atribuicoes = e.get("atribuicoes", [])
+            # Backwards compatibility: pode vir 'trabalhoAtual' (bool) do front-end React
+            trabalho_atual = e.get("trabalhoAtual", False) or (str(e.get("status") or "").lower() == "atual")
+            inicio = formatar_mes_ano(e.get("inicio"))
+            fim = formatar_mes_ano(e.get("fim"))
+            atribuicoes = e.get("atribuicoes", []) or []
 
             periodo = ""
-            if status.lower() == "atual":
-                periodo = f"{inicio} até o momento"
+            if trabalho_atual:
+                periodo = f"{inicio} até o momento" if inicio else "Até o momento"
             elif inicio and fim:
                 periodo = f"{inicio} a {fim}"
+            elif inicio:
+                periodo = f"{inicio}"
+            elif fim:
+                periodo = f"{fim}"
 
             if empresa:
                 subsection(empresa)
+
             linha = " | ".join([p for p in [cargo, periodo] if p])
             if linha:
                 texto_normal(linha)
 
+            # Atribuições com marcadores seta
             if atribuicoes:
                 c.setFont(FONT_BOLD, 10)
                 c.drawString(MARGIN_LEFT_RIGHT, y, "Atribuições:")
                 y -= 5 * mm
                 for a in atribuicoes:
-                    if y < MARGIN_BOTTOM + 30:
-                        c.showPage()
-                        y = PAGE_HEIGHT - MARGIN_TOP
-                    c.setFont(FONT_REGULAR, 10)
-                    c.drawString(MARGIN_LEFT_RIGHT + 6 * mm, y, u"\u2022 " + a)
-                    y -= 6 * mm
+                    if a:
+                        if y < MARGIN_BOTTOM + 30:
+                            c.showPage()
+                            y = PAGE_HEIGHT - MARGIN_TOP
+                        c.setFont(FONT_REGULAR, 10)
+                        c.drawString(MARGIN_LEFT_RIGHT + 6 * mm, y, u"\u2192 " + str(a))
+                        y -= 6 * mm
                 y -= 4 * mm
+
+            # adicionar um espaço entre empresas
+            y -= 4 * mm
 
     # Idiomas
     idiomas = data.get("idiomas", [])
     if idiomas:
         section_title("Idiomas")
         for idi in idiomas:
-            idioma = idi.get("idioma", "")
-            nivel = idi.get("nivel", "")
+            if isinstance(idi, dict):
+                idioma = idi.get("idioma", "")
+                nivel = idi.get("nivel", "")
+            else:
+                # possibilita string simples "Inglês - Avançado"
+                idioma = str(idi)
+                nivel = ""
             linha = " | ".join([p for p in [idioma, nivel] if p])
             if linha:
-                texto_normal(linha)
+                if y < MARGIN_BOTTOM + 30:
+                    c.showPage()
+                    y = PAGE_HEIGHT - MARGIN_TOP
+                c.setFont(FONT_REGULAR, 10)
+                c.drawString(MARGIN_LEFT_RIGHT + 4 * mm, y, u"\u2192 " + linha)
+                y -= 6 * mm
+        y -= 4 * mm
 
     # Rodapé
     c.setFont(FONT_REGULAR, 8)
