@@ -158,12 +158,12 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="input-grid">
             <label className="field-label">
-              Nome *
+              Nome
               <input name="nome" value={form.nome} onChange={handleChange} required placeholder="Digite seu nome completo"/>
             </label>
 
             <label className="field-label">
-              Telefone *
+              Telefone
               <input
                 name="telefone"
                 value={form.telefone}
@@ -174,7 +174,7 @@ function App() {
             </label>
 
             <label className="field-label">
-              Email *
+              Email
               <input name="email" value={form.email} onChange={handleChange} type="email" required placeholder="nome@exemplo.com" />
             </label>
 
@@ -195,7 +195,7 @@ function App() {
           </div>
 
           <label className="field-label">
-            Objetivo Profissional *
+            Objetivo Profissional
             <textarea name="objetivo" value={form.objetivo} onChange={handleChange} rows={4} required  placeholder="Digite aqui o seus objetivos e metas"/>
           </label>
 
@@ -206,16 +206,20 @@ function App() {
               const status = item.status || "";
               return (
                 <div key={i} className={`multi-input ${Array.isArray(item.atribuicoes) ? "" : "stack"}`}>
-                  <input
-                    placeholder="Curso"
+                  <label className="field-label"> Nome da Formação
+                    <input
+                    placeholder="Engenharia, Medicina..."
                     value={item.curso}
                     onChange={(e) => handleArrayChange(i, "formacoes", "curso", saferCapitalize(e.target.value))}
-                  />
+                  /></label>
+                  <label className="field-label"> Nome da Instituição
                   <input
-                    placeholder="Escola"
+                    placeholder="Informe o nome da instituição"
                     value={item.escola}
                     onChange={(e) => handleArrayChange(i, "formacoes", "escola", saferCapitalize(e.target.value))}
                   />
+                  </label>
+                  <label className="field-label"> Status da Formação
                   <select
                     value={status}
                     onChange={(e) => handleArrayChange(i, "formacoes", "status", e.target.value)}
@@ -225,24 +229,28 @@ function App() {
                     <option value="Cursando">Cursando</option>
                     <option value="Trancado">Trancado</option>
                   </select>
-
+                  </label>
+                  <label className="field-label"> Data de Início
                   <input
                     type="month"
                     value={item.inicio}
                     onChange={(e) => handleArrayChange(i, "formacoes", "inicio", e.target.value)}
                   />
+                  </label>
 
                   {/* campo fim: escondido se status === "Cursando" */}
                   <div className={`hide-animate ${status === "Cursando" ? "hidden" : ""}`}>
+                    <label className="field-label"> Data de Término
                     <input
                       type="month"
                       value={item.fim}
                       onChange={(e) => handleArrayChange(i, "formacoes", "fim", e.target.value)}
                     />
+                    </label>
                   </div>
 
                   <button type="button" className="remove-btn" onClick={() => removeItem("formacoes", i)}>
-                    Remover
+                    Remover Formação
                   </button>
                   <hr className="divider"/>
                 </div>
@@ -262,13 +270,14 @@ function App() {
             <div className="section-title">Conhecimentos</div>
             {form.conhecimentos.map((item, i) => (
               <div key={i} className="multi-input stack">
+                <label className="field-label"> Descrição do Conhecimento</label>
                 <input
-                  placeholder="Descrição do conhecimento"
+                  placeholder="Informe um conhecimento (ex: Pacote Office, Python, etc.)"
                   value={item.descricao}
                   onChange={(e) => handleArrayChange(i, "conhecimentos", "descricao", e.target.value)}
                 />
                 <button type="button" className="remove-btn" onClick={() => removeItem("conhecimentos", i)}>
-                  Remover
+                  Remover conhecimento
                 </button>
                 <hr className="divider"/>
               </div>
@@ -285,16 +294,21 @@ function App() {
               const status = item.status || "";
               return (
                 <div key={i} className="multi-input">
+                  <label className="field-label"> Nome do Curso
                   <input
-                    placeholder="Nome do Curso"
+                    placeholder="Informe o nome do curso"
                     value={item.curso}
                     onChange={(e) => handleArrayChange(i, "cursos", "curso", saferCapitalize(e.target.value))}
                   />
+                  </label>
+                  <label className="field-label"> Nome da Instituição
                   <input
-                    placeholder="Instituição"
+                    placeholder="Informe o nome da instituição"
                     value={item.instituicao}
                     onChange={(e) => handleArrayChange(i, "cursos", "instituicao", saferCapitalize(e.target.value))}
                   />
+                  </label>
+                  <label className="field-label"> Status do Curso
                   <select
                     value={status}
                     onChange={(e) => handleArrayChange(i, "cursos", "status", e.target.value)}
@@ -303,23 +317,28 @@ function App() {
                     <option value="Concluído">Concluído</option>
                     <option value="Cursando">Cursando</option>
                   </select>
+                  </label>
 
+                  <label className="field-label"> Data de Início
                   <input
                     type="month"
                     value={item.inicio}
                     onChange={(e) => handleArrayChange(i, "cursos", "inicio", e.target.value)}
                   />
+                  </label>
 
                   <div className={`hide-animate ${status === "Cursando" ? "hidden" : ""}`}>
+                    <label className="field-label"> Data de Término
                     <input
                       type="month"
                       value={item.fim}
                       onChange={(e) => handleArrayChange(i, "cursos", "fim", e.target.value)}
                     />
+                    </label>
                   </div>
 
                   <button type="button" className="remove-btn" onClick={() => removeItem("cursos", i)}>
-                    Remover
+                    Remover curso
                   </button>
                   <hr className="divider"/>
                 </div>
@@ -341,37 +360,44 @@ function App() {
               const atual = !!item.trabalhoAtual;
               return (
                 <div key={i} className="multi-input">
+                  <label className="field-label"> Nome da Empresa
                   <input
-                    placeholder="Empresa"
+                    placeholder="Informe o nome da empresa"
                     value={item.empresa}
                     onChange={(e) => handleArrayChange(i, "experiencias", "empresa", saferCapitalize(e.target.value))}
                   />
+                  </label>
+                  <label className="field-label"> Cargo
                   <input
-                    placeholder="Cargo"
+                    placeholder="Informe o nome do cargo"
                     value={item.cargo}
                     onChange={(e) => handleArrayChange(i, "experiencias", "cargo", saferCapitalize(e.target.value))}
                   />
+                  </label>
 
                   <button type="button" className="remove-btn" onClick={() => removeItem("experiencias", i)}>
-                    Remover
+                    Remover experiência
                   </button>
 
-
+                  <label className="field-label"> Data de Início
                   <input
                     type="month"
                     value={item.inicio}
                     onChange={(e) => handleArrayChange(i, "experiencias", "inicio", e.target.value)}
                   />
+                  </label>
 
                   <div className={`hide-animate ${atual ? "hidden" : ""}`}>
+                    <label className="field-label"> Data de Término
                     <input
                       type="month"
                       value={item.fim}
                       onChange={(e) => handleArrayChange(i, "experiencias", "fim", e.target.value)}
                     />
+                    </label>
                   </div>
 
-                  <label style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: "2vw", marginTop: "0.7rem" }}>
+                  <label style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: "2vw", marginTop: "2.7rem", justifyContent: "center" }}>
                     <input
                       type="checkbox"
                       checked={atual}
@@ -444,6 +470,7 @@ function App() {
             <div key={i} className="multi-input">
 
               {/* 🔽 Select de idiomas (ordenado alfabeticamente) */}
+              <label className="field-label"> Idioma
               <select
                 value={item.idioma}
                 onChange={(e) => handleArrayChange(i, "idiomas", "idioma", e.target.value)}
@@ -476,8 +503,10 @@ function App() {
                 <option value="Turco">Turco</option>
                 <option value="Ucraniano">Ucraniano</option>
               </select>
+              </label>
 
               {/* 🔽 Select de nível */}
+              <label className="field-label"> Nível
               <select
                 value={item.nivel}
                 onChange={(e) => handleArrayChange(i, "idiomas", "nivel", e.target.value)}
@@ -489,13 +518,14 @@ function App() {
                 <option value="Fluente">Fluente</option>
                 <option value="Nativo">Nativo</option>
               </select>
+              </label>
 
               <button
                 type="button"
                 className="remove-btn"
                 onClick={() => removeItem("idiomas", i)}
               >
-                Remover
+                Remover idioma
               </button>
 
               <hr className="divider" />
@@ -514,7 +544,7 @@ function App() {
 
 
           <button type="submit" disabled={loading} className="submit-btn">
-            {loading ? "Gerando..." : "Gerar PDF"}
+            {loading ? "Gerando..." : "Gerar Currículo"}
           </button>
         </form>
       </section>

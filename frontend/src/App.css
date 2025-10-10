@@ -4,6 +4,8 @@
   --cor-bg: linear-gradient(180deg, #0b2494d8 0%, #555 70%);
   --cor-primaria: #d10000;
   --cor-primaria-apagada: #ff0000c2;
+  --cor-secundaria: #00580f;
+  --cor-secundaria-apagada: #0ad62c96;
   --cor-branca: #fff;
   --cor-preta: #000;
   --cor-apagada: #ffffff1c;
@@ -56,7 +58,7 @@ html, body {
 .form-section h1 {
   text-align: center;
   font-family: var(--font-title);
-  margin-bottom: 1.6rem;
+  margin-bottom: 2rem;
   font-size: 2.2rem;
   font-weight: 700;
 }
@@ -110,7 +112,7 @@ input, textarea, select {
   width: 100%;
   margin-top: 2rem;
   padding: 0.9rem;
-  background-color: var(--cor-primaria);
+  background-color: var(--cor-secundaria);
   color: #fff;
   font-weight: 700;
   font-size: 1.2rem;
@@ -120,14 +122,14 @@ input, textarea, select {
   transition: all 0.2s;
 }
 
-.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-primaria-apagada);}
+.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-secundaria-apagada);}
 
 /* add / remove */
 .add-btn {
   background-color: var(--cor-branca-apagada);
   border: none;
   border-radius: 0.5rem;
-  color: var(--cor-primaria);
+  color: var(--cor-secundaria);
   font-weight: 700;
   padding: 0.4rem 0.8rem;
   margin-top: 0.6rem;
@@ -139,7 +141,7 @@ input, textarea, select {
   color: var(--cor-branca);
   border: none;
   border-radius: 0.5rem;
-  margin-top: .5rem;
+  margin-top: 2.4rem;
   padding: 0.8rem 0.8rem;
   font-weight: 700;
   cursor: pointer;
