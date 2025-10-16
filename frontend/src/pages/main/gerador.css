@@ -1,0 +1,235 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100vh;
+  width: 100vw;
+  font-family: var(--font-main);
+  background: url(../../../public/fundo.jpg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Container geral */
+.gerador-container .app-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+
+/* Seção do formulário */
+.gerador-container .form-section {
+    margin-top: 15vh;
+    margin-bottom: 5vh;
+  width: 90vw;
+  max-width: 60rem;
+  background: var(--cor-fundo);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  border: 2px solid var(--cor-branca-apagada);
+  box-shadow: 0 0 25px var(--cor-branca);
+  padding: 3rem;
+  color: var(--cor-branca);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Título */
+.gerador-container .form-section h1 {
+  text-align: center;
+  font-family: var(--font-title);
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+/* Categoria (títulos das seções) */
+.gerador-container .section-title {
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* Labels e campos - label com descrição acima do input */
+.gerador-container .field-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+}
+
+.gerador-container .helper {
+  font-weight: 400;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+/* Inputs em geral */
+.gerador-container input, .gerador-container textarea, .gerador-container select {
+  margin-top: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  font-family: var(--font-inputs);
+  font-size: 1rem;
+}
+
+/* Grid de inputs */
+.gerador-container .input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Botões */
+.gerador-container .submit-btn {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.9rem;
+  background-color: var(--cor-secundaria);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-secundaria-apagada);}
+
+/* add / remove */
+.gerador-container .add-btn {
+  background-color: var(--cor-branca-apagada);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--cor-secundaria);
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.6rem;
+  cursor: pointer;
+}
+
+.gerador-container .remove-btn {
+  background-color: #ff0000d5;
+  color: var(--cor-branca);
+  border: none;
+  border-radius: 0.5rem;
+  margin-top: 2.4rem;
+  padding: 0.8rem 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gerador-container .remove-btn:hover { background-color: #b60000d5; transform: scale(0.98); }
+
+/* Campos dinâmicos */
+.gerador-container .dynamic-field {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--cor-apagada);
+  border-radius: 0.8rem;
+  border: 1px solid var(--cor-branca-apagada);
+}
+
+/* Multi input rows */
+.gerador-container .multi-input {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  align-items: start;
+  margin-top: 0.6rem;
+}
+
+.gerador-container .divider {
+ grid-column: 1 / -1;
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--cor-branca-apagada);
+  margin: .5rem 0;
+}
+
+/* When there are many fields (like atribuicoes) fall back to column */
+.gerador-container .multi-input.stack {
+  grid-template-columns: 1fr;
+}
+
+/* Hidden with smooth height transition for "fim" quando cursando / trabalho atual */
+.gerador-container .hide-animate {
+  overflow: hidden;
+  transition: max-height 300ms ease, opacity 300ms ease;
+  max-height: 500px;
+  opacity: 1;
+}
+.gerador-container .hide-animate.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* Corrige alinhamento e largura dos campos de data (início/fim) */
+.gerador-container .multi-input input[type="month"] {
+  width: 100%;
+}
+
+/* Garante que o campo 'fim' dentro da animação tenha o mesmo comportamento */
+.gerador-container .multi-input .hide-animate {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.gerador-container .multi-input .hide-animate input[type="month"] {
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.gerador-container .buttons-atribuições {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+}
+
+
+/* Cada campo de atribuição com botão ao lado */
+.gerador-container .atribuicao-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gerador-container .atribuicao-item input {
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.gerador-container .atribuicao-item .remove-btn {
+  flex-shrink: 0;
+  width: 50px;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+
+
+/* Small responsive adjustments */
+@media (max-width: 900px) {
+  .gerador-container .form-section { width: 95vw; padding: 1.8rem; }
+  .gerador-container .input-grid { grid-template-columns: 1fr; }
+  .gerador-container .multi-input { grid-template-columns: 1fr; }
+}

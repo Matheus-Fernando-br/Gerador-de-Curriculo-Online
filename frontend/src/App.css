@@ -1,12 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
-
 :root {
   --cor-bg: linear-gradient(180deg, #0b2494d8 0%, #555 70%);
   --cor-primaria: #d10000;
   --cor-primaria-apagada: #ff0000c2;
   --cor-secundaria: #00580f;
   --cor-secundaria-apagada: #0ad62c96;
-  --cor-branca: #fff;
+  --cor-branca: #ffffff;
   --cor-preta: #000;
   --cor-apagada: #ffffff1c;
   --cor-fundo: rgba(100, 100, 100, 0.082);
@@ -14,236 +12,82 @@
   --font-main: "Fjalla One", sans-serif;
   --font-inputs: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-title: "BBH Sans Bartle", sans-serif;
+  --espaco-linha-menu: 1vh;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  min-height: 100vh;
-  width: 100vw;
-  font-family: var(--font-main);
-  background: url(../public/fundo.jpg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
-}
-
-/* Container geral */
-.app-container {
+/* Navbar fixa no topo */
+.top-navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
-  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  border-bottom: 2px solid var(--cor-apagada);
+  justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 1rem 2rem;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
 }
 
-/* Seção do formulário */
-.form-section {
-  width: 90vw;
-  max-width: 60rem;
-  background: var(--cor-fundo);
-  backdrop-filter: blur(20px);
-  border-radius: 1rem;
-  border: 2px solid var(--cor-branca-apagada);
-  box-shadow: 0 0 25px var(--cor-branca);
-  padding: 3rem;
+.top-navbar .left-section .logo {
+  height: 45px;
+  border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.top-navbar .left-section .logo:hover {
+  transform: scale(0.97);
+  box-shadow: 0 0 6px var(--cor-branca);
+}
+
+.top-navbar .right-section {
+  display: flex;
+  gap: 2rem;
+}
+
+.top-navbar .right-section a {
   color: var(--cor-branca);
-  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
 }
 
-/* Título */
-.form-section h1 {
-  text-align: center;
-  font-family: var(--font-title);
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
-  font-weight: 700;
-}
-
-/* Categoria (títulos das seções) */
-.section-title {
-  margin-top: 1.2rem;
-  margin-bottom: 0.6rem;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-}
-
-/* Labels e campos - label com descrição acima do input */
-.field-label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 700;
-  margin-top: 0.8rem;
-  font-size: 0.95rem;
-}
-
-.helper {
-  font-weight: 400;
-  font-size: 0.8rem;
-  opacity: 0.85;
-  margin-top: 0.25rem;
-}
-
-/* Inputs em geral */
-input, textarea, select {
-  margin-top: 0.5rem;
-  padding: 0.6rem;
-  border-radius: 0.5rem;
-  border: none;
-  outline: none;
-  font-family: var(--font-inputs);
-  font-size: 1rem;
-}
-
-/* Grid de inputs */
-.input-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-/* Botões */
-.submit-btn {
-  width: 100%;
-  margin-top: 2rem;
-  padding: 0.9rem;
-  background-color: var(--cor-secundaria);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-secundaria-apagada);}
-
-/* add / remove */
-.add-btn {
-  background-color: var(--cor-branca-apagada);
-  border: none;
-  border-radius: 0.5rem;
+.top-navbar .right-section a:hover {
   color: var(--cor-secundaria);
-  font-weight: 700;
-  padding: 0.4rem 0.8rem;
-  margin-top: 0.6rem;
-  cursor: pointer;
+  transform: scale(0.98);
 }
 
-.remove-btn {
-  background-color: #ff0000d5;
-  color: var(--cor-branca);
-  border: none;
-  border-radius: 0.5rem;
-  margin-top: 2.4rem;
-  padding: 0.8rem 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.remove-btn:hover { background-color: #b60000d5; transform: scale(0.98); }
-
-/* Campos dinâmicos */
-.dynamic-field {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: var(--cor-apagada);
-  border-radius: 0.8rem;
-  border: 1px solid var(--cor-branca-apagada);
-}
-
-/* Multi input rows */
-.multi-input {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  align-items: start;
-  margin-top: 0.6rem;
-}
-
-.divider {
- grid-column: 1 / -1;
+.top-navbar .right-section a::after,
+.top-navbar .right-section a::before {
+  content: '';
+  display: block;
   width: 100%;
-  border: none;
-  border-top: 1px solid var(--cor-branca-apagada);
-  margin: .5rem 0;
+  border: solid 1px var(--cor-branca);
+  transition: all 0.2s ease-in-out;
+  transform: translateY(0); /* inicial sem deslocamento */
 }
 
-/* When there are many fields (like atribuicoes) fall back to column */
-.multi-input.stack {
-  grid-template-columns: 1fr;
+.top-navbar .right-section a::after {
+  margin-top: var(--espaco-linha-menu); /* só um espaçamento inicial */
 }
 
-/* Hidden with smooth height transition for "fim" quando cursando / trabalho atual */
-.hide-animate {
-  overflow: hidden;
-  transition: max-height 300ms ease, opacity 300ms ease;
-  max-height: 500px;
-  opacity: 1;
-}
-.hide-animate.hidden {
-  max-height: 0;
-  opacity: 0;
-  padding: 0;
-  margin: 0;
+.top-navbar .right-section a::before {
+  margin-bottom: var(--espaco-linha-menu); /* só um espaçamento inicial */
 }
 
-/* Corrige alinhamento e largura dos campos de data (início/fim) */
-.multi-input input[type="month"] {
-  width: 100%;
+.top-navbar .right-section a:hover::after {
+  border-color: var(--cor-secundaria);
+  transform: translateY(4px); /* move para baixo sem mexer na altura do layout */
 }
 
-/* Garante que o campo 'fim' dentro da animação tenha o mesmo comportamento */
-.multi-input .hide-animate {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
+.top-navbar .right-section a:hover::before {
+  border-color: var(--cor-secundaria);
+  transform: translateY(-4px); /* move para cima sem mexer na altura do layout */
 }
 
-.multi-input .hide-animate input[type="month"] {
-  width: 100%;
-  margin-top: .5rem;
-}
-
-.buttons-atribuições {
-  display: flex;
-  flex-direction: row;
-  gap: 0.4rem;
-}
-
-
-/* Cada campo de atribuição com botão ao lado */
-.atribuicao-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.atribuicao-item input {
-  flex-grow: 1;
-  min-width: 150px;
-}
-
-.atribuicao-item .remove-btn {
-  flex-shrink: 0;
-  width: 50px;
-  padding: 0.6rem;
-  margin-top: 0.5rem;
-}
-
-
-
-/* Small responsive adjustments */
-@media (max-width: 900px) {
-  .form-section { width: 95vw; padding: 1.8rem; }
-  .input-grid { grid-template-columns: 1fr; }
-  .multi-input { grid-template-columns: 1fr; }
-}

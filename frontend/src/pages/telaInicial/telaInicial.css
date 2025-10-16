@@ -1,0 +1,270 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+.telaInicial {
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  background-color: #0f0f0f;
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+.telaInicial .top-navbar {
+  background: var(--cor-preta);
+}
+
+/* BOTÃO FLUTUANTE */
+.telaInicial .floating-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0) scale(1);
+    background-color: var(--cor-secundaria);
+    border: none;
+    border-radius: 40px;
+    width: 15vw;
+    height: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    z-index: 2001;
+    animation: flutuar 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes flutuar {
+    0%{ transform: translateX(-50%) translateY(0) scale(1); }
+    30%{ transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(-10px) scale(1); }
+    70% { transform: translateX(-50%) translateY(0) scale(1); }
+    90% { transform: translateX(-50%) translateY(-5px) scale(1); }
+    100% { transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+.telaInicial .floating-button:hover {
+    background-color: var(--cor-secundaria-apagada);
+    animation: none;
+    transform: translateX(-50%) translateY(0) scale(0.98);
+}
+
+
+.telaInicial .floating-button button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+
+/* HERO */
+.telaInicial .hero {
+    margin-top: 4vh;
+  height: 100vh;
+  background: url("../../../public/assets/entrevista-ruim.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem;
+}
+.telaInicial .hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 10px #000;
+}
+.telaInicial .btn-green {
+  background-color: #36d674;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.telaInicial .btn-green:hover {
+  background-color: #2db664;
+  transform: scale(1.05);
+}
+
+
+
+/* SECTION 2 */
+.telaInicial .sec2 {
+  position: relative;
+  min-height: 80vh;
+  background-color: var(--cor-preta); /* fundo preto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+.telaInicial .sec2 .curriculo-image {
+  width: 80%;
+  max-width: 60vw;
+  height: 60vh;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+.telaInicial .sec2 .curriculo-image img {
+  width: 100%;
+  display: block;
+  transition: transform 0.8s ease;
+}
+.telaInicial .sec2 .curriculo-image:hover img {
+  transform: translateY(-30%);
+}
+
+
+/* SECTION 3 */
+.telaInicial .sec3 {
+  background-color: #111;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+.telaInicial .sec3 h2 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+.telaInicial .carousel {
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 15px;
+}
+.telaInicial .carousel-img {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.telaInicial .carousel-img.fade {
+  opacity: 1;
+}
+
+/* FAQ */
+.telaInicial .faq {
+  background-color: #181818;
+  padding: 5rem 2rem;
+}
+.telaInicial .faq h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.telaInicial .faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.telaInicial .faq-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #333;
+}
+.telaInicial .faq-question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--cor-primaria);
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.telaInicial .faq-question:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.telaInicial .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  padding: 0 1rem;
+  margin-top: 2vh;
+}
+.telaInicial .faq-answer.show {
+  max-height: 300px;
+  opacity: 1;
+  padding-bottom: 1rem;
+}
+
+/* PLUS */
+.telaInicial .plus {
+  background-color: #101010;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+.telaInicial .plus h2 {
+  margin-bottom: 1rem;
+}
+.telaInicial .plus p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* QUEM SOMOS */
+.telaInicial .quem-somos {
+  position: relative;
+  height: 80vh;
+  background: url("../../../public/assets/quem-somos.png") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 5rem;
+}
+.telaInicial .quem-somos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.telaInicial .quem-somos-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+.telaInicial .quem-somos-content h2 {
+  margin-bottom: 1rem;
+}
+.telaInicial .quem-somos-content p {
+  line-height: 1.6;
+}
+
+/* FINAL */
+.telaInicial .final {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #0a0a0a;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #6ef07a;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .telaInicial .navbar {
+    flex-direction: column;
+  }
+  .telaInicial .nav-right {
+    margin-top: 1rem;
+  }
+  .telaInicial .hero-content h1 {
+    font-size: 2rem;
+  }
+  .telaInicial .sec2, .quem-somos {
+    background-position: center;
+  }
+}
