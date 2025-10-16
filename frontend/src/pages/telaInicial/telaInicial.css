@@ -6,7 +6,7 @@ html {
 .telaInicial {
   font-family: "Poppins", sans-serif;
   color: #fff;
-  background-color: #0f0f0f;
+
   overflow-x: hidden;
 }
 
@@ -65,14 +65,16 @@ html {
 
 /* HERO */
 .telaInicial .hero {
-    margin-top: 4vh;
-  height: 100vh;
-  background: url("../../../public/assets/entrevista-ruim.jpg") center/cover no-repeat;
+    margin-top: 15vh;
+  height: 70vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.719), rgba(0,0,0,0.5)),
+              url("../../../public/assets/entrevista-ruim.jpg") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 0 2rem;
+  border-radius: 50px 50px 0 0;
 }
 .telaInicial .hero-content h1 {
   font-size: 3rem;
@@ -83,6 +85,7 @@ html {
   background-color: #36d674;
   color: #fff;
   border: none;
+  transform: translateY(70%);
   padding: 1rem 2rem;
   border-radius: 30px;
   font-size: 1.2rem;
@@ -92,7 +95,7 @@ html {
 }
 .telaInicial .btn-green:hover {
   background-color: #2db664;
-  transform: scale(1.05);
+  transform: translateY(70%) scale(1.05);
 }
 
 
@@ -163,6 +166,9 @@ html {
   padding: 5rem 2rem;
 }
 .telaInicial .faq h2 {
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-weight: 400;
+  font-size: 3rem;
   text-align: center;
   margin-bottom: 3rem;
 }
@@ -211,11 +217,23 @@ html {
 }
 .telaInicial .plus h2 {
   margin-bottom: 1rem;
+  font-size: 3rem;
+  font-family: "BBH Sans Bartle", sans-serif;
+  font-weight: 400;
 }
+
+.telaInicial .plus span {
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 2;
+}
+
 .telaInicial .plus p {
+  text-align: justify;
+  justify-self: center;
   margin-bottom: 2rem;
   font-size: 1.1rem;
-  line-height: 1.6;
+  line-height: 2;
 }
 
 /* QUEM SOMOS */
@@ -238,9 +256,23 @@ html {
   position: relative;
   z-index: 2;
   max-width: 500px;
+  background: var(--cor-preta);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  padding: 2rem 1rem;
+  border-radius: 25px;
+  transition: all 0.5s ease-in-out;
 }
+
+.telaInicial .quem-somos-content:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  transform: scale(1.02);
+}
+
 .telaInicial .quem-somos-content h2 {
   margin-bottom: 1rem;
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-weight: 400;
+  font-size: 2rem;
 }
 .telaInicial .quem-somos-content p {
   line-height: 1.6;
@@ -249,12 +281,15 @@ html {
 /* FINAL */
 .telaInicial .final {
   text-align: center;
+  background-color: var(--cor-preta);
   padding: 4rem 2rem;
-  background-color: #0a0a0a;
   font-size: 1.5rem;
   font-weight: 500;
   color: #6ef07a;
+  padding-bottom: 7rem;
+  border-radius: 0 0 50px 50px;
 }
+
 
 /* RESPONSIVE */
 @media (max-width: 900px) {

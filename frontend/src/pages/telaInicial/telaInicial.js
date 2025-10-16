@@ -93,7 +93,7 @@ export default function TelaInicial() {
 
       {/* SECTION 4 */}
       <section className="faq" id="duvidas">
-        <h2>Dúvidas frequentes</h2>
+        <h2>Duvidas frequentes</h2>
         <div className="faq-container">
           {[
             {
@@ -135,14 +135,15 @@ export default function TelaInicial() {
       {/* SECTION 5 */}
       <section className="plus" id="plus">
         <h2>Plano Plus</h2>
+        <p>Leve seu currículo para o próximo nível</p>
         <p>
-          Tenha acesso a recursos premium:
+          <span>Tenha acesso a recursos premium:</span>
           <br />• Personalize títulos e seções
           <br />• Formatação profissional
           <br />• Alteração de campos
-          <br />• E suporte prioritário
+          <br />• E suporte prioritário <br />
         </p>
-        <button className="btn-green">Assine o Plano Plus</button>
+        <button className="btn-green">Assine o Plano Plus por apenas R$9,90</button>
       </section>
 
       {/* SECTION 6 */}
@@ -159,7 +160,7 @@ export default function TelaInicial() {
 
       {/* SECTION 7 */}
       <section className="final">
-        <h2>Seu futuro começa com um bom currículo</h2>
+        <h2>Seu futuro começa com um bom <span>currículo</span></h2>
       </section>
     </div>
   );
