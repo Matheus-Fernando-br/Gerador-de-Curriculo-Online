@@ -26,6 +26,7 @@ html {
   left: 0;
   top: 0;
   width: 100%;
+  height: 12vh;
   display: flex;
   border-bottom: 2px solid var(--cor-apagada);
   justify-content: space-between;
@@ -89,5 +90,56 @@ html {
 .top-navbar .right-section a:hover::before {
   border-color: var(--cor-secundaria);
   transform: translateY(-4px); /* move para cima sem mexer na altura do layout */
+}
+
+/* MENU HAMBÚRGUER */
+.telaInicial .menu-toggle {
+  display: none;
+  transform: translateX(5vw);
+  font-size: 2.5rem;
+  color: var(--cor-branca);
+  cursor: pointer;
+}
+
+/* --- Versão Mobile --- */
+@media (max-width: 900px) {
+  .telaInicial .top-navbar {
+    padding: 1rem 2rem;
+    height: 12vh;
+  }
+
+  .telaInicial .left-section {
+    transform: translateX(-5vw);
+  }
+
+  .telaInicial .menu-toggle {
+    display: block;
+  }
+
+  .telaInicial .right-section {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: var(--cor-preta);
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .telaInicial .right-section.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .telaInicial .right-section a {
+    font-size: 1.1rem;
+  }
 }
 

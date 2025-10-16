@@ -121,10 +121,13 @@ html {
 .telaInicial .sec2 .curriculo-image img {
   width: 100%;
   display: block;
-  transition: transform 0.8s ease;
+  transform: translateY(-5%);
+  transition: transform 3s ease, opacity 1s ease;
+  opacity: 60%;
 }
 .telaInicial .sec2 .curriculo-image:hover img {
-  transform: translateY(-30%);
+  transform: translateY(-52%);
+  opacity: 100%;
 }
 
 
@@ -254,17 +257,41 @@ html {
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
-  .telaInicial .navbar {
-    flex-direction: column;
-  }
-  .telaInicial .nav-right {
-    margin-top: 1rem;
-  }
+@media (max-width: 900px) {
   .telaInicial .hero-content h1 {
     font-size: 2rem;
   }
   .telaInicial .sec2, .quem-somos {
     background-position: center;
+  }
+
+  .telaInicial .sec2 .text{
+    padding: 1rem 1rem;
+  }
+
+  .telaInicial .sec2 .curriculo-image {
+    width: 100%;
+    max-width: 95vw;
+    height: 40vh;
+  }
+
+  .telaInicial .sec2 .curriculo-image img {
+    transform: translateY(-5%);
+    transition: transform 2s ease, opacity 1s ease;
+    opacity: 90%;
+  }
+  .telaInicial .sec2 .curriculo-image:hover img {
+    transform: translateY(-22%);
+  }
+
+  .telaInicial .quem-somos {
+    justify-content: center;
+    padding: 0 2rem;
+  }
+
+  .telaInicial .floating-button {
+    width: 60vw;
+    height: 12vw;
+    font-size: 1.4rem;
   }
 }

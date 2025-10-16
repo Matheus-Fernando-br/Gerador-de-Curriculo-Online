@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./telaInicial.css";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function TelaInicial() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,6 +24,10 @@ export default function TelaInicial() {
 
   const navigate = useNavigate();
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
   return (
     <div className="telaInicial">
       {/* NAVBAR */}
@@ -32,13 +37,17 @@ export default function TelaInicial() {
                     <img src="/logo.png" alt="Logo" className="logo" />
                 </a>
             </div>
-            <div className="right-section">
-                <a href="#duvidas">Dúvidas frequentes</a>
-                <a href="#plus">Plano Plus</a>
-                <a href="#como-funciona">Como funciona</a>
-                <a href="#quem-somos">Quem somos</a>
+            <div className={`right-section ${menuOpen ? "open" : ""}`}>
+              <a href="#duvidas" onClick={() => setMenuOpen(false)}>Dúvidas frequentes</a>
+              <a href="#plus" onClick={() => setMenuOpen(false)}>Plano Plus</a>
+              <a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a>
+              <a href="#quem-somos" onClick={() => setMenuOpen(false)}>Quem somos</a>
             </div>
-      </nav>
+
+            <div className="menu-toggle" onClick={toggleMenu}>
+              <i className={`bi ${menuOpen ? "bi-x" : "bi-list"}`}></i>
+            </div>
+       </nav>
 
       {/* BOTÃO FLUTUANTE */}
         <div className="floating-button">
