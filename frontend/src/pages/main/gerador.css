@@ -5,7 +5,6 @@
 html, body {
   min-height: 100vh;
   width: 100vw;
-  font-family: var(--font-main);
   background: url(../../../public/fundo.jpg);
   display: flex;
   justify-content: center;
@@ -46,7 +45,7 @@ html, body {
   font-family: var(--font-title);
   margin-bottom: 2rem;
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: 100;
 }
 
 /* Categoria (títulos das seções) */
@@ -63,6 +62,7 @@ html, body {
 .gerador-container .field-label {
   display: flex;
   flex-direction: column;
+  font-family: var(--font-inputs);
   font-weight: 700;
   margin-top: 0.8rem;
   font-size: 0.95rem;
@@ -230,6 +230,7 @@ html, body {
 /* Small responsive adjustments */
 @media (max-width: 900px) {
   .gerador-container .form-section { width: 95vw; padding: 1.8rem; }
+  .gerador-container .form-section h1 { font-size: 1.9rem;}
   .gerador-container .input-grid { grid-template-columns: 1fr; }
   .gerador-container .multi-input { grid-template-columns: 1fr; }
 }

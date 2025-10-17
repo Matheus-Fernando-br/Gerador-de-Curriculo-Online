@@ -32,6 +32,7 @@ html {
   display: flex;
   border-bottom: 2px solid var(--cor-apagada);
   justify-content: space-between;
+  font-family: var(--font-main);
   align-items: center;
   padding: 1rem 2rem;
   z-index: 1000;
@@ -94,8 +95,12 @@ html {
   transform: translateY(-4px); /* move para cima sem mexer na altura do layout */
 }
 
+.top-navbar .right-section a i {
+  margin-right: 0.5rem;
+}
+
 /* MENU HAMBÚRGUER */
-.telaInicial .menu-toggle {
+.telaInicial .menu-toggle, .gerador-container .menu-toggle {
   display: none;
   transform: translateX(5vw);
   font-size: 2.5rem;
@@ -105,20 +110,20 @@ html {
 
 /* --- Versão Mobile --- */
 @media (max-width: 900px) {
-  .telaInicial .top-navbar {
+  .telaInicial .top-navbar, .gerador-container .top-navbar {
     padding: 1rem 2rem;
     height: 12vh;
   }
 
-  .telaInicial .left-section {
+  .telaInicial .left-section, .gerador-container .left-section {
     transform: translateX(-5vw);
   }
 
-  .telaInicial .menu-toggle {
+  .telaInicial .menu-toggle, .gerador-container .menu-toggle {
     display: block;
   }
 
-  .telaInicial .right-section {
+  .telaInicial .right-section, .gerador-container .right-section {
     position: absolute;
     top: 70px;
     right: 0;
@@ -134,13 +139,17 @@ html {
     transition: all 0.3s ease-in-out;
   }
 
-  .telaInicial .right-section.open {
+  .gerador-container .top-navbar {
+    background-color: var(--cor-preta);
+  }
+
+  .telaInicial .right-section.open, .gerador-container .right-section.open {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
   }
 
-  .telaInicial .right-section a {
+  .telaInicial .right-section a, .gerador-container .right-section a {
     font-size: 1.1rem;
   }
 }

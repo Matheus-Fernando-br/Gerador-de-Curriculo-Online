@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./telaInicial.css";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
-import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function TelaInicial() {
   const [currentSlide, setCurrentSlide] = useState(0);

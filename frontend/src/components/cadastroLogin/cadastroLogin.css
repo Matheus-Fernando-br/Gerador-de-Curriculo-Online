@@ -1,0 +1,23 @@
+/* Sobrescreve o app.css apenas para cadastro */
+.cadastro-login-nav {
+  position: static !important;   /* tira o absolute */
+  transform: translateY(0) !important;  /* remove o translate */
+  opacity: 1 !important;         /* garante visibilidade */
+  pointer-events: auto !important; /* garante que seja clicável */
+  display: flex !important;      /* mantém o flex */
+  flex-direction: row !important; /* alinha horizontalmente */
+  width: auto !important;        /* largura natural */
+  background: none !important;   /* remove fundo preto */
+  padding: 0 !important;
+  text-align: left !important;
+  gap: 1rem !important;
+}
+
+.cadastro-link {
+  font-family: var(--font-inputs);
+  font-weight: 600;
+  color: var(--cor-branca);
+  text-decoration: none;
+  margin-top: 4vh;
+  text-align: center;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./gerador.css";
-
+import "../../App.css";
+import Login from "../../components/login/login";
 
 function Gerador() {
   const [form, setForm] = useState({
@@ -141,18 +142,30 @@ function Gerador() {
     }
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
   return (
     <div className="app-container gerador-container">
-        <navbar className="top-navbar">
+        <nav className="top-navbar">
           <div className="left-section">
             <a href="#top">
               <img src="/logo.png" alt="Logo" className="logo"/>
             </a>
           </div>
-          <div className="right-section">
-            <a href="/">Voltar para a página inicial</a>
+          <div className={`right-section ${menuOpen ? "open" : ""}`}>
+            <a href="/" onClick={() => setMenuOpen(false)}>
+              Voltar para a página inicial
+            </a>
+            <Login />
           </div>
-        </navbar>
+
+        {/* BOTÃO HAMBÚRGUER */}
+        <div className="menu-toggle" onClick={toggleMenu}>
+          <i className={`bi ${menuOpen ? "bi-x" : "bi-list"}`}></i>
+        </div>
+        </nav>
         
       <section className="form-section" id="form-section">
         <h1>GERADOR DE CURRÍCULO ONLINE</h1>

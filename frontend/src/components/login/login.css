@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+
+.login-container {
+  position: relative;
+  display: inline-block;
+}
+
+.login-link {
+  color: var(--cor-branca);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-link:hover {
+  color: var(--cor-secundaria);
+  transform: scale(0.98);
+}
+
+.login-submenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: url('../../../public/fundo.jpg');
+  border: 1px solid var(--cor-apagada);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  padding: 1.5rem;
+  width: 250px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.login-submenu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-input {
+  background: var(--cor-branca);
+  border: 1px solid var(--cor-apagada);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  color: var(--cor-preta);
+  font-family: var(--font-inputs);
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: var(--cor-secundaria);
+}
+
+.btn-login {
+  background: var(--cor-secundaria);
+  color: var(--cor-branca);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-main);
+}
+
+.btn-login:hover {
+  background: var(--cor-secundaria-apagada);
+}
+
+.cadastre-text {
+  font-size: 0.85rem;
+  color: var(--cor-branca-apagada);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.cadastre-link {
+  color: var(--cor-secundaria);
+  text-decoration: underline;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .login-submenu {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+  }
+}
