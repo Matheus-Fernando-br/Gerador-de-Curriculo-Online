@@ -13,7 +13,7 @@
   transition: all 0.3s;
 }
 
-.login-link:hover {
+.login-link:hover, .login-link.open {
   color: var(--cor-secundaria);
   transform: scale(0.98);
 }

@@ -226,19 +226,23 @@ html {
   border-bottom: 1px solid #333;
 }
 .telaInicial .faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   text-align: left;
   background: none;
   border: none;
   color: var(--cor-branca-apagada);
   font-family: "Josefin Sans", sans-serif;
-  font-optical-sizing: auto;
   font-size: 1.1rem;
   font-weight: 600;
   padding: 1rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
+
 .telaInicial .faq-question:hover {
   background: rgba(255, 255, 255, 0.05);
 }
@@ -246,6 +250,8 @@ html {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease, opacity 0.3s ease;
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
   opacity: 0;
   padding: 0 1rem;
   margin-top: 2vh;
@@ -254,6 +260,24 @@ html {
   max-height: 300px;
   opacity: 1;
   padding-bottom: 1rem;
+}
+
+
+/* ícone animado */
+.telaInicial .faq-question i {
+  font-size: 1.2rem;
+  transition: transform 0.6s ease, color 0.5s ease;
+  color: var(--cor-branca-apagada);
+}
+
+.telaInicial .faq-question i:hover {
+  color: var(--cor-secundaria);
+}
+
+/* muda cor e anima o ícone quando aberto */
+.telaInicial .faq-question.open i {
+  transform: rotate(360deg);
+  color: var(--cor-secundaria);
 }
 
 /* PLUS */
@@ -336,6 +360,24 @@ html {
   padding-bottom: 7rem;
   border-radius: 0 0 50px 50px;
 }
+
+/* ANIMAÇÕES DE APARECER */
+.aparecer {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.delay1, .delay2, .delay3, .delay4 {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+
+.delay1.aparecer { transition-delay: 0.2s; }
+.delay2.aparecer { transition-delay: 0.4s; }
+.delay3.aparecer { transition-delay: 0.6s; }
+.delay4.aparecer { transition-delay: 0.8s; }
+
 
 
 /* RESPONSIVE */

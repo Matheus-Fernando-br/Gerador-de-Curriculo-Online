@@ -1,5 +1,5 @@
 // src/pages/telaInicial/telaInicial.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./telaInicial.css";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,14 @@ import Login from "../../components/login/login";
 
 export default function TelaInicial() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [
-    "/notebook.png",
-    "/notebook01.png",
-  ];
+  const slides = ["/notebook.png", "/notebook01.png"];
+  const navigate = useNavigate();
+
+  const [faqOpen, setFaqOpen] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleFaq = (i) => setFaqOpen(faqOpen === i ? null : i);
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,71 +23,83 @@ export default function TelaInicial() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  const [faqOpen, setFaqOpen] = useState(null);
-  const toggleFaq = (i) => setFaqOpen(faqOpen === i ? null : i);
+  // === ANIMAÇÃO POR SCROLL ===
+  const observer = useRef(null);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("aparecer");
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
 
-  const [menuOpen, setMenuOpen] = useState(false);
+    const elements = document.querySelectorAll(".delay1, .delay2, .delay3, .delay4");
+    elements.forEach((el) => observer.current.observe(el));
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+    return () => {
+      if (observer.current) observer.current.disconnect();
+    };
+  }, []);
 
   return (
     <div className="telaInicial">
       {/* NAVBAR */}
       <nav className="top-navbar">
-            <div className="left-section">
-                <a href="#top">
-                    <img src="/logo.png" alt="Logo" className="logo" />
-                </a>
-            </div>
-            <div className={`right-section ${menuOpen ? "open" : ""}`}>
-              <a href="#duvidas" onClick={() => setMenuOpen(false)}>Dúvidas frequentes</a>
-              <a href="#plus" onClick={() => setMenuOpen(false)}>Plano Plus</a>
-              <a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a>
-              <a href="#quem-somos" onClick={() => setMenuOpen(false)}>Quem somos</a>
-              <Login />
-            </div>
-
-            <div className="menu-toggle" onClick={toggleMenu}>
-              <i className={`bi ${menuOpen ? "bi-x" : "bi-list"}`}></i>
-            </div>
-       </nav>
-
-      {/* BOTÃO FLUTUANTE */}
-        <div className="floating-button">
-            <button className="btn-floating" onClick={() => navigate("/gerador")}>
-                Gerar currículo
-            </button>
+        <div className="left-section">
+          <a href="#top">
+            <img src="/logo.png" alt="Logo" className="logo" />
+          </a>
+        </div>
+        <div className={`right-section ${menuOpen ? "open" : ""}`}>
+          <a href="#duvidas" onClick={() => setMenuOpen(false)}>Dúvidas frequentes</a>
+          <a href="#plus" onClick={() => setMenuOpen(false)}>Plano Plus</a>
+          <a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a>
+          <a href="#quem-somos" onClick={() => setMenuOpen(false)}>Quem somos</a>
+          <Login />
         </div>
 
+        <div className="menu-toggle" onClick={toggleMenu}>
+          <i className={`bi ${menuOpen ? "bi-x" : "bi-list"}`}></i>
+        </div>
+      </nav>
 
-      {/* SECTION 1 */}
+      {/* BOTÃO FLUTUANTE */}
+      <div className="floating-button delay3">
+        <button className="btn-floating" onClick={() => navigate("/gerador")}>
+          Gerar currículo
+        </button>
+      </div>
+
+      {/* HERO */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Chega de não ser convocado para entrevistas</h1>
-            <button className="btn-green" onClick={() => navigate("/gerador")}>
-                Mude seu futuro agora
-            </button>
+          <h1 className="delay1">Chega de não ser convocado para entrevistas</h1>
+          <button className="btn-green delay3" onClick={() => navigate("/gerador")}>
+            Mude seu futuro agora
+          </button>
         </div>
       </section>
 
       {/* SECTION 2 */}
-    <section className="sec2">
+      <section className="sec2">
         <div className="overlay" />
-        <div className="curriculo-image">
-            <img src="/curriculo-preview.jpg" alt="Currículo" />
+        <div className="curriculo-image delay1">
+          <img src="/curriculo-preview.jpg" alt="Currículo" />
         </div>
-        <div className="text">
-            <h2>Com poucos cliques, seu currículo sai formatado e de graça</h2>
+        <div className="text delay1">
+          <h2>Com poucos cliques, seu currículo sai formatado e de graça</h2>
         </div>
-    </section>
-
+      </section>
 
       {/* SECTION 3 */}
       <section className="sec3" id="como-funciona">
-        <h2>Acesse de qualquer lugar</h2>
-        <div className="carousel">
+        <h2 className="delay1">Acesse de qualquer lugar</h2>
+        <div className="carousel delay2">
           <img
             src={slides[currentSlide]}
             alt="preview"
@@ -92,40 +108,26 @@ export default function TelaInicial() {
         </div>
       </section>
 
-      {/* SECTION 4 */}
+      {/* FAQ */}
       <section className="faq" id="duvidas">
-        <h2>Duvidas frequentes</h2>
-        <div className="faq-container">
+        <h2 className="delay1">Dúvidas frequentes</h2>
+        <div className="faq-container delay2">
           {[
-            {
-              q: "O gerador é realmente gratuito?",
-              a: "Sim! Você pode gerar quantos currículos quiser sem pagar nada.",
-            },
-            {
-              q: "Preciso criar uma conta?",
-              a: "Não é necessário criar conta para usar a versão gratuita.",
-            },
-            {
-              q: "Como faço para salvar meu currículo?",
-              a: "Após preencher o formulário, clique em 'Gerar Currículo' e o PDF será baixado automaticamente.",
-            },
-            {
-              q: "Posso editar o currículo depois?",
-              a: "Na versão gratuita, não há edição posterior. No Plano Plus, sim.",
-            },
+            { q: "O gerador é realmente gratuito?", a: "Sim! Você pode gerar quantos currículos quiser sem pagar nada." },
+            { q: "Preciso criar uma conta?", a: "Não é necessário criar conta para usar a versão gratuita." },
+            { q: "Como faço para salvar meu currículo?", a: "Após preencher o formulário, clique em 'Gerar Currículo' e o PDF será baixado automaticamente." },
+            { q: "Posso editar o currículo depois?", a: "Na versão gratuita, não há edição posterior. No Plano Plus, sim." },
           ].map((item, i) => (
-            <div key={i} className="faq-item">
+            <div key={i} className="faq-item delay3">
               <button
                 className={`faq-question ${faqOpen === i ? "open" : ""}`}
                 onClick={() => toggleFaq(i)}
               >
-                {item.q}
+                <span>{item.q}</span>
+                <i className={`bi ${faqOpen === i ? "bi-chevron-double-up" : "bi-chevron-double-down"}`}></i>
               </button>
-              <div
-                className={`faq-answer ${
-                  faqOpen === i ? "show" : ""
-                }`}
-              >
+
+              <div className={`faq-answer ${faqOpen === i ? "show" : ""}`}>
                 <p>{item.a}</p>
               </div>
             </div>
@@ -133,25 +135,25 @@ export default function TelaInicial() {
         </div>
       </section>
 
-      {/* SECTION 5 */}
+      {/* PLUS */}
       <section className="plus" id="plus">
-        <h2>Plano Plus</h2>
-        <p>Leve seu currículo para o próximo nível</p>
-        <p>
+        <h2 className="delay1">Plano Plus</h2>
+        <p className="delay2">Leve seu currículo para o próximo nível</p>
+        <p className="delay3">
           <span>Tenha acesso a recursos premium:</span>
           <br />• Personalize títulos e seções
           <br />• Formatação profissional
           <br />• Alteração de campos
           <br />• E suporte prioritário <br />
         </p>
-        <button className="btn-green">Assine o Plano Plus por apenas R$9,90</button>
+        <button className="btn-green delay4">Assine o Plano Plus por apenas R$9,90</button>
       </section>
 
-      {/* SECTION 6 */}
+      {/* QUEM SOMOS */}
       <section className="quem-somos" id="quem-somos">
         <div className="quem-somos-content">
-          <h2>Quem somos</h2>
-          <p>
+          <h2 className="delay1">Quem somos</h2>
+          <p className="delay3">
             Somos uma equipe dedicada a facilitar sua jornada profissional,
             oferecendo ferramentas que tornam o processo de criação de currículo
             rápido, simples e gratuito.
@@ -159,9 +161,11 @@ export default function TelaInicial() {
         </div>
       </section>
 
-      {/* SECTION 7 */}
+      {/* FINAL */}
       <section className="final">
-        <h2>Seu futuro começa com um bom <span>currículo</span></h2>
+        <h2 className="delay1">
+          Seu futuro começa com um bom <span>currículo</span>
+        </h2>
       </section>
     </div>
   );
