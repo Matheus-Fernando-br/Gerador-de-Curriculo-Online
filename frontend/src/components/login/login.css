@@ -21,16 +21,16 @@
 .login-submenu {
   position: absolute;
   top: 100%;
-  right: 0;
+  right: -2vw;
   background: url('../../../public/fundo.jpg');
-  border: 1px solid var(--cor-apagada);
+  border: 1px solid var(--cor-branca-apagada-2);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   padding: 1.5rem;
-  width: 250px;
+  width: 20vw;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-10px);
+  transform: translateY(-50px);
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   z-index: 100;
@@ -39,7 +39,7 @@
 .login-submenu.open {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
+  transform: translateY(20px);
 }
 
 .login-form {
@@ -94,7 +94,6 @@
   .login-submenu {
     position: static;
     width: 100%;
-    margin-top: 1rem;
     transform: none;
     opacity: 1;
     pointer-events: auto;
@@ -102,4 +101,9 @@
     background: transparent;
     border: none;
   }
+
+  .cadastre-text {
+    margin-top: .4rem;
+  }
+
 }

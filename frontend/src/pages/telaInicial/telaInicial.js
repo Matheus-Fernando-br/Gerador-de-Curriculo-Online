@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./telaInicial.css";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
+import Login from "../../components/login/login";
 
 export default function TelaInicial() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -41,6 +42,7 @@ export default function TelaInicial() {
               <a href="#plus" onClick={() => setMenuOpen(false)}>Plano Plus</a>
               <a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a>
               <a href="#quem-somos" onClick={() => setMenuOpen(false)}>Quem somos</a>
+              <Login />
             </div>
 
             <div className="menu-toggle" onClick={toggleMenu}>

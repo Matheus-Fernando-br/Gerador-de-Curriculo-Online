@@ -140,7 +140,7 @@ html, body {
 .gerador-container .dynamic-field {
   margin-top: 1rem;
   padding: 1rem;
-  background: var(--cor-apagada);
+  background: var(--cor-branca-apagada-2);
   border-radius: 0.8rem;
   border: 1px solid var(--cor-branca-apagada);
 }

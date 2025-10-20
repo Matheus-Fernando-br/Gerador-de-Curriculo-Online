@@ -7,10 +7,12 @@
   --cor-secundaria: #00580f;
   --cor-secundaria-apagada: #0ad62c96;
   --cor-branca: #ffffff;
-  --cor-preta: #000;
-  --cor-apagada: #ffffff1c;
-  --cor-fundo: rgba(100, 100, 100, 0.082);
   --cor-branca-apagada: rgba(255, 255, 255, 0.726);
+  --cor-branca-apagada-2: rgba(255, 255, 255, 0.158);
+  --cor-preta: #000;
+  --cor-preta-apagada: #000000e5;
+  --cor-cinza:#707070ab;
+  --cor-fundo:  rgba(100, 100, 100, 0.082);
   --font-main: "Fjalla One", sans-serif;
   --font-inputs: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-title: "BBH Sans Bartle", sans-serif;
@@ -30,7 +32,7 @@ html {
   width: 100%;
   height: 12vh;
   display: flex;
-  border-bottom: 2px solid var(--cor-apagada);
+  border-bottom: 2px solid var(--cor-branca-apagada);
   justify-content: space-between;
   font-family: var(--font-main);
   align-items: center;
@@ -138,6 +140,9 @@ html {
     pointer-events: none;
     transition: all 0.3s ease-in-out;
   }
+  .telaInicial .right-section {
+    gap: 1rem;
+  }
 
   .gerador-container .top-navbar {
     background-color: var(--cor-preta);
@@ -152,5 +157,6 @@ html {
   .telaInicial .right-section a, .gerador-container .right-section a {
     font-size: 1.1rem;
   }
+
 }
 

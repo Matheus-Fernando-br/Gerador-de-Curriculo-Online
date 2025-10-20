@@ -104,14 +104,32 @@ html {
 .telaInicial .sec2 {
   position: relative;
   min-height: 80vh;
-  background-color: var(--cor-preta); /* fundo preto */
+  background-color: var(--cor-cinza); /* fundo preto */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   text-align: center;
   padding: 3rem 2rem;
+  z-index: 1;
 }
+
+.telaInicial .sec2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 10vh; 
+  z-index: -1;
+}
+
+/* sombra inferior */
+.telaInicial .sec2::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--cor-preta), transparent);
+}
+
+
 .telaInicial .sec2 .curriculo-image {
   width: 80%;
   max-width: 60vw;
@@ -136,7 +154,7 @@ html {
 
 /* SECTION 3 */
 .telaInicial .sec3 {
-  background-color: #111;
+  background-color: var(--cor-preta-apagada);
   padding: 5rem 2rem;
   text-align: center;
 }
@@ -162,9 +180,36 @@ html {
 
 /* FAQ */
 .telaInicial .faq {
-  background-color: #181818;
+  background-color: var(--cor-cinza);
   padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
 }
+
+/* sombra no topo */
+.telaInicial .faq::before,
+.telaInicial .faq::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 15vh; 
+  z-index: -1;
+}
+
+/* sombra superior */
+.telaInicial .faq::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--cor-preta), transparent);
+}
+
+/* sombra inferior */
+.telaInicial .faq::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--cor-preta), transparent);
+}
+
+
 .telaInicial .faq h2 {
   font-family: "BBH Sans Hegarty", sans-serif;
   font-weight: 400;
@@ -185,7 +230,9 @@ html {
   text-align: left;
   background: none;
   border: none;
-  color: var(--cor-primaria);
+  color: var(--cor-branca-apagada);
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
   font-size: 1.1rem;
   font-weight: 600;
   padding: 1rem;
@@ -211,7 +258,7 @@ html {
 
 /* PLUS */
 .telaInicial .plus {
-  background-color: #101010;
+  background-color: var(--cor-preta-apagada);
   padding: 5rem 2rem;
   text-align: center;
 }
