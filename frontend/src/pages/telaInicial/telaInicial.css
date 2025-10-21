@@ -152,30 +152,87 @@ html {
 }
 
 
-/* SECTION 3 */
+/* SECTION 3 - Carrossel estilo Prudential (loop contínuo) */
 .telaInicial .sec3 {
   background-color: var(--cor-preta-apagada);
-  padding: 5rem 2rem;
+  padding: 6rem 0;
   text-align: center;
-}
-.telaInicial .sec3 h2 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-}
-.telaInicial .carousel {
-  max-width: 800px;
-  margin: 0 auto;
   overflow: hidden;
-  border-radius: 15px;
 }
-.telaInicial .carousel-img {
+
+.telaInicial .sec3 h2 {
+  font-size: 2.4rem;
+  margin-bottom: 3rem;
+}
+
+.telaInicial .carousel-container {
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  height: auto;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+  max-width: 80vw;
+  margin: 0 auto;
 }
-.telaInicial .carousel-img.fade {
-  opacity: 1;
+
+.telaInicial .carousel-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: scrollCarousel 15s linear infinite;
+}
+
+/* Truque: duplicar as imagens sem pular */
+.telaInicial .carousel-track::after {
+  content: "";
+  display: block;
+}
+
+.telaInicial .carousel-item {
+  flex: 0 0 auto;
+  width: 280px;
+  height: 30vh;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.telaInicial .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 25px;
+}
+
+/* Loop contínuo sem “salto” */
+@keyframes scrollCarousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Máscara de fade nas laterais — opcional (dá um toque premium) */
+.telaInicial .carousel-container::before,
+.telaInicial .carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 20vw;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.telaInicial .carousel-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--cor-preta-apagada), transparent);
+}
+
+.telaInicial .carousel-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--cor-preta-apagada), transparent);
 }
 
 /* FAQ */
@@ -406,6 +463,21 @@ html {
   }
   .telaInicial .sec2 .curriculo-image:hover img {
     transform: translateY(-22%);
+  }
+
+   .telaInicial .carousel-item {
+    width: 70vw;
+    height: 160px;
+  }
+
+  .telaInicial .carousel-track {
+    gap: 1rem;
+    animation: scrollCarousel 15s linear infinite;
+  }
+
+  .telaInicial .sec3 h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
   }
 
   .telaInicial .quem-somos {
