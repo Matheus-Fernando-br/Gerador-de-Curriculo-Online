@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 html, body {
   min-height: 100vh;
@@ -12,7 +16,9 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Container geral */
+/* ================================
+   CONTAINER GERAL
+================================ */
 .gerador-container .app-container {
   width: 100%;
   min-height: 100vh;
@@ -22,11 +28,12 @@ html, body {
   padding: 2rem;
 }
 
-
-/* Seção do formulário */
+/* ================================
+   SEÇÃO DO FORMULÁRIO
+================================ */
 .gerador-container .form-section {
-    margin-top: 15vh;
-    margin-bottom: 5vh;
+  margin-top: 15vh;
+  margin-bottom: 5vh;
   width: 90vw;
   max-width: 60rem;
   background: var(--cor-fundo);
@@ -43,12 +50,12 @@ html, body {
 .gerador-container .form-section h1 {
   text-align: center;
   font-family: var(--font-title);
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
   font-weight: 100;
 }
 
-/* Categoria (títulos das seções) */
+/* Categoria */
 .gerador-container .section-title {
   margin-top: 1.2rem;
   margin-bottom: 0.6rem;
@@ -58,7 +65,7 @@ html, body {
   text-transform: uppercase;
 }
 
-/* Labels e campos - label com descrição acima do input */
+/* Labels */
 .gerador-container .field-label {
   display: flex;
   flex-direction: column;
@@ -75,8 +82,10 @@ html, body {
   margin-top: 0.25rem;
 }
 
-/* Inputs em geral */
-.gerador-container input, .gerador-container textarea, .gerador-container select {
+/* Inputs */
+.gerador-container input,
+.gerador-container textarea,
+.gerador-container select {
   margin-top: 0.5rem;
   padding: 0.6rem;
   border-radius: 0.5rem;
@@ -86,14 +95,20 @@ html, body {
   font-size: 1rem;
 }
 
-/* Grid de inputs */
+/* Grid */
 .gerador-container .input-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-/* Botões */
+.gerador-container .input-grid .form-row {
+  grid-column: span 2;
+}
+
+/* ================================
+   BOTÕES
+================================ */
 .gerador-container .submit-btn {
   width: 100%;
   margin-top: 2rem;
@@ -108,9 +123,12 @@ html, body {
   transition: all 0.2s;
 }
 
-.submit-btn:hover { transform: scale(0.98); background-color: var(--cor-secundaria-apagada);}
+.submit-btn:hover {
+  transform: scale(0.98);
+  background-color: var(--cor-secundaria-apagada);
+}
 
-/* add / remove */
+/* Botões de add/remove */
 .gerador-container .add-btn {
   background-color: var(--cor-branca-apagada);
   border: none;
@@ -134,9 +152,35 @@ html, body {
   transition: all 0.2s;
 }
 
-.gerador-container .remove-btn:hover { background-color: #b60000d5; transform: scale(0.98); }
+.gerador-container .remove-btn:hover {
+  background-color: #b60000d5;
+  transform: scale(0.98);
+}
 
-/* Campos dinâmicos */
+/* Preview Box */
+.preview-box {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 2px solid var(--cor-branca);
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.preview-box:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-box i {
+  font-size: 1.5rem;
+}
+
+/* ================================
+   CAMPOS DINÂMICOS
+================================ */
 .gerador-container .dynamic-field {
   margin-top: 1rem;
   padding: 1rem;
@@ -145,7 +189,7 @@ html, body {
   border: 1px solid var(--cor-branca-apagada);
 }
 
-/* Multi input rows */
+/* Multi-input rows */
 .gerador-container .multi-input {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -154,26 +198,26 @@ html, body {
   margin-top: 0.6rem;
 }
 
+.gerador-container .multi-input.stack {
+  grid-template-columns: 1fr;
+}
+
 .gerador-container .divider {
- grid-column: 1 / -1;
+  grid-column: 1 / -1;
   width: 100%;
   border: none;
   border-top: 1px solid var(--cor-branca-apagada);
   margin: .5rem 0;
 }
 
-/* When there are many fields (like atribuicoes) fall back to column */
-.gerador-container .multi-input.stack {
-  grid-template-columns: 1fr;
-}
-
-/* Hidden with smooth height transition for "fim" quando cursando / trabalho atual */
+/* Animação esconder campo fim */
 .gerador-container .hide-animate {
   overflow: hidden;
   transition: max-height 300ms ease, opacity 300ms ease;
   max-height: 500px;
   opacity: 1;
 }
+
 .gerador-container .hide-animate.hidden {
   max-height: 0;
   opacity: 0;
@@ -181,32 +225,13 @@ html, body {
   margin: 0;
 }
 
-/* Corrige alinhamento e largura dos campos de data (início/fim) */
+/* Campos de mês */
 .gerador-container .multi-input input[type="month"] {
   width: 100%;
 }
 
-/* Garante que o campo 'fim' dentro da animação tenha o mesmo comportamento */
-.gerador-container .multi-input .hide-animate {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-.gerador-container .multi-input .hide-animate input[type="month"] {
-  width: 100%;
-  margin-top: .5rem;
-}
-
-.gerador-container .buttons-atribuições {
-  display: flex;
-  flex-direction: row;
-  gap: 0.4rem;
-}
-
-
-/* Cada campo de atribuição com botão ao lado */
+/* Atribuições */
+.gerador-container .atribuição-item,
 .gerador-container .atribuicao-item {
   display: flex;
   align-items: center;
@@ -218,19 +243,32 @@ html, body {
   min-width: 150px;
 }
 
-.gerador-container .atribuicao-item .remove-btn {
-  flex-shrink: 0;
-  width: 50px;
-  padding: 0.6rem;
-  margin-top: 0.5rem;
+.gerador-container .buttons-atribuições {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
 }
 
+.gerador-container 
 
-
-/* Small responsive adjustments */
+/* ================================
+   RESPONSIVIDADE
+================================ */
 @media (max-width: 900px) {
-  .gerador-container .form-section { width: 95vw; padding: 1.8rem; }
-  .gerador-container .form-section h1 { font-size: 1.9rem;}
-  .gerador-container .input-grid { grid-template-columns: 1fr; }
-  .gerador-container .multi-input { grid-template-columns: 1fr; }
+  .gerador-container .form-section {
+    width: 95vw;
+    padding: 1.8rem;
+  }
+
+  .gerador-container .form-section h1 {
+    font-size: 1.9rem;
+  }
+
+  .gerador-container .input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gerador-container .multi-input {
+    grid-template-columns: 1fr;
+  }
 }
