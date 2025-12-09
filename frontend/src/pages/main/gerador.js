@@ -196,28 +196,8 @@ function Gerador() {
         </div>
       </nav>
 
-      <section className="form-section" id="form-section">
+      <div className="form-section" id="form-section">
         <h1 style={{ textAlign: "center" }}>GERADOR DE CURRÍCULO ONLINE</h1>
-
-        {/* Caixa do botão Preview (borda branca) */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            border: "2px solid #fff",
-            padding: "8px 12px",
-            borderRadius: "8px",
-            width: "fit-content",
-            margin: "10px auto 20px auto",
-            cursor: "pointer",
-            background: "transparent",
-          }}
-          onClick={togglePreview}
-        >
-          <i className="bi bi-eye" style={{ fontSize: "18px", color: "#fff" }} />
-          <span style={{ color: "#fff", fontWeight: 700 }} id="#preview-curriculo">Preview do Currículo</span>
-        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="input-grid">
@@ -696,6 +676,26 @@ function Gerador() {
           )}
         </div>
 
+                {/* Caixa do botão Preview (borda branca) */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            border: "2px solid #fff",
+            padding: "8px 12px",
+            borderRadius: "8px",
+            width: "fit-content",
+            margin: "10px auto 20px auto",
+            cursor: "pointer",
+            background: "transparent",
+          }}
+          onClick={togglePreview}
+        >
+          <i className="bi bi-eye" style={{ fontSize: "18px", color: "#fff" }} />
+          <span style={{ color: "#fff", fontWeight: 700 }} id="#preview-curriculo">Preview do Currículo</span>
+        </div>
+
           <button type="submit" disabled={loading} className="submit-btn" style={{ marginTop: "1.6rem" }}>
             {loading ? "Gerando..." : "Gerar Currículo"}
           </button>
@@ -715,6 +715,7 @@ function Gerador() {
             color: "#000",
             boxShadow: "0 0 8px rgba(0,0,0,0.1)",
             boxSizing: "border-box",
+            fontFamily: "Arial, sans-serif" ,
           }}
         >
           {/* Header centralizado */}
@@ -722,8 +723,8 @@ function Gerador() {
             <h1
               style={{
                 margin: 0,
-                fontSize: "16pt",
-                fontWeight: 800,
+                fontSize: "18pt",
+                fontWeight: 1000,
                 fontFamily: "Arial, sans-serif",
               }}
             >
@@ -755,8 +756,8 @@ function Gerador() {
 
           {/* Objetivo */}
           <section style={{ marginBottom: "10px", fontFamily: "Arial, sans-serif" }}>
-            <div style={{ fontSize: "14pt", fontWeight: 700, fontFamily: "Arial, sans-serif", marginTop: "5px"}}>Objetivo</div>
-            <div style={{ fontSize: "12pt", marginTop: "6px", marginLeft:"6px", fontFamily: "Arial, sans-serif", whiteSpace: "pre-wrap" }}>
+            <div style={{ fontSize: "14pt", fontWeight: 800, fontFamily: "Arial, sans-serif", marginTop: "5px"}}>Objetivo</div>
+            <div style={{ fontSize: "12pt", marginTop: "6px", marginLeft:"6px", whiteSpace: "pre-wrap" }}>
               {form.objetivo || "-"}
             </div>
           </section>
@@ -764,7 +765,7 @@ function Gerador() {
           {/* Formação */}
           <section style={{ marginBottom: "20px", fontFamily: "Arial, sans-serif" }}>
 
-            <div style={{ fontSize: "14pt", fontWeight: 700, marginBottom: "10px" }}>
+            <div style={{ fontSize: "14pt", fontWeight: 800, marginBottom: "10px" }}>
               Formação Acadêmica
             </div>
 
@@ -776,15 +777,15 @@ function Gerador() {
               <div key={i} style={{ marginBottom: "12px" }}>
 
                 {/* CURSO (negrito + itálico)  +  ESCOLA (normal) NA MESMA LINHA */}
-                <div style={{ fontSize: "12pt", marginBottom: "3px" }}>
-                  <span style={{ fontWeight: 700, fontStyle: "italic" }}>{f.curso}</span>
-                  {" - 99"}
-                  <span style={{ fontWeight: 400 }}>{f.escola}</span>
+                <div style={{ fontSize: "12pt", marginBottom: "3px", marginTop:"15px" }}>
+                  <span style={{ fontWeight: 600, fontStyle: "italic"}}>• {f.curso}</span>
+                  {" - "}
+                  <span>{f.escola}</span>
                 </div>
 
                 {/* PERÍODO */}
                 <div style={{ fontSize: "12pt", marginLeft: "12px" }}>
-                  {f.inicio || f.fim ? `• ${formatPeriodo(f.inicio, f.fim, f.status)}` : ""}
+                  {f.inicio || f.fim ? `${formatPeriodo(f.inicio, f.fim, f.status)}` : ""}
                 </div>
 
               </div>
@@ -796,15 +797,15 @@ function Gerador() {
 
           {/* Experiências */}
           <section style={{ marginBottom: "10px", fontFamily: "Arial, sans-serif" }}>
-            <div style={{ fontSize: "14pt", fontWeight: 700 }}>Experiência Profissional</div>
+            <div style={{ fontSize: "14pt", fontWeight: 800 }}>Experiência Profissional</div>
             <div style={{ marginTop: "6px" }}>
               {form.experiencias.length === 0 && <div style={{ fontSize: "12pt" }}>-</div>}
               {form.experiencias.map((exp, i) => (
                 <div key={i} style={{ marginBottom: "6px" }}>
-                  <div style={{ fontSize: "12pt", fontWeight: 700 }}>{exp.cargo} — {exp.empresa}</div>
-                  <div style={{ fontSize: "12pt" }}>{formatPeriodo(exp.inicio, exp.fim, exp.trabalhoAtual ? "Atual" : "")}</div>
+                  <div style={{ fontSize: "12pt", fontWeight: 600, marginTop:"15px"}}>➢ {exp.cargo} — {exp.empresa}</div>
+                  <div style={{ fontSize: "12pt", marginLeft:"23px", marginTop:"6px" }}>{formatPeriodo(exp.inicio, exp.fim, exp.trabalhoAtual ? "Cursando" : "")}</div>
                   {(exp.atribuicoes || []).length > 0 && (
-                    <ul style={{ margin: "6px 0 0 18px", fontSize: "12pt" }}>
+                    <ul style={{ margin: "6px 0 0 35px", fontSize: "12pt" }}>
                       {exp.atribuicoes.map((a, j) => (
                         <li key={j}>{a}</li>
                       ))}
@@ -819,20 +820,40 @@ function Gerador() {
           <section style={{ marginBottom: "10px", fontFamily: "Arial, sans-serif" }}>
             <div style={{ display: "flex", gap: "20px" }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: "14pt", fontWeight: 700 }}>Cursos</div>
-                <div style={{ marginTop: "6px" }}>
-                  {form.cursos.length === 0 && <div style={{ fontSize: "12pt" }}>-</div>}
-                  {form.cursos.map((c, i) => (
-                    <div key={i} style={{ marginBottom: "6px", fontSize: "12pt" }}>
-                      <div style={{ fontWeight: 700 }}>{c.curso}</div>
-                      <div>{c.instituicao} {c.inicio || c.fim ? `• ${formatPeriodo(c.inicio, c.fim, c.status)}` : ""}</div>
+                <div style={{ fontSize: "14pt", fontWeight: 800 }}>Cursos</div>
+
+                {form.cursos.length === 0 && (
+                  <div style={{ fontSize: "12pt" }}>-</div>
+                )}
+
+                {form.cursos.map((c, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      marginTop: "15px",
+                      marginLeft: "6px",
+                      fontSize: "12pt",
+                      marginBottom: "3px"
+                    }}
+                  >
+                    <span style={{ fontWeight: 600, fontStyle: "italic" }}>
+                      • {c.curso}
+                    </span>
+                    {" - "}
+                    <span style={{ fontWeight: 400 }}>{c.instituicao}</span>
+
+                    <div style={{ marginTop: "6px", fontSize: "12pt", marginLeft: "18px" }}>
+                      {c.inicio || c.fim
+                        ? `${formatPeriodo(c.inicio, c.fim, c.status)}`
+                        : ""}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
+                
               </div>
 
               <div style={{ width: "240px" }}>
-                <div style={{ fontSize: "14pt", fontWeight: 700 }}>Conhecimentos</div>
+                <div style={{ fontSize: "14pt", fontWeight: 800 }}>Conhecimentos</div>
                 <div style={{ marginTop: "6px", fontSize: "12pt" }}>
                   {form.conhecimentos.length === 0 && <div>-</div>}
                   <ul style={{ marginLeft: "18px" }}>
@@ -849,10 +870,10 @@ function Gerador() {
           <section style={{ marginBottom: "10px", fontFamily: "Arial, sans-serif" }}>
             <div style={{ display: "flex", gap: "20px" }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: "14pt", fontWeight: 700 }}>Idiomas</div>
+                <div style={{ fontSize: "14pt", fontWeight: 800 }}>Idiomas</div>
                 <div style={{ marginTop: "6px", fontSize: "12pt" }}>
                   {form.idiomas.length === 0 && <div>-</div>}
-                  <ul style={{ marginLeft: "18px" }}>
+                  <ul style={{ marginLeft: "23px" }}>
                     {form.idiomas.map((l, i) => (
                       <li key={i}>{l.idioma} — {l.nivel}</li>
                     ))}
@@ -864,7 +885,7 @@ function Gerador() {
               <div style={{ width: "240px" }}>
                 {cnhVisible && form.cnh && (
                   <>
-                    <div style={{ fontSize: "14pt", fontWeight: 700 }}>CNH</div>
+                    <div style={{ fontSize: "14pt", fontWeight: 800 }}>CNH</div>
                     <div style={{ marginTop: "6px", fontSize: "12pt" }}>{form.cnh}</div>
                   </>
                 )}
@@ -872,9 +893,9 @@ function Gerador() {
             </div>
           </section>
         </div>
-        {/* fim preview */}
-      </section>
-    </div>
+        </div>
+        </div>
+      
   );
 }
 
