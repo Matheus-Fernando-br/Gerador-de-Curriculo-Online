@@ -112,6 +112,7 @@ html, body {
 .gerador-container .submit-btn {
   width: 100%;
   margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: 0.9rem;
   background-color: var(--cor-secundaria);
   color: #fff;
@@ -249,26 +250,58 @@ html, body {
   gap: 0.4rem;
 }
 
-.gerador-container 
-
 /* ================================
    RESPONSIVIDADE
 ================================ */
 @media (max-width: 900px) {
+
+  /* Ajusta container para não ficar gigante */
   .gerador-container .form-section {
     width: 95vw;
-    padding: 1.8rem;
+    padding: 1.5rem;
+    margin-top: 15vh;
   }
 
-  .gerador-container .form-section h1 {
-    font-size: 1.9rem;
-  }
-
+  /* Input grid vira 1 coluna */
   .gerador-container .input-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
+  /* multi-input empilha corretamente */
   .gerador-container .multi-input {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Ajuda nos campos longos */
+  .gerador-container .field-label input,
+  .gerador-container .field-label select,
+  .gerador-container .field-label textarea {
+    width: 100% !important;
+  }
+
+  /* Botão remover fica menor e não empurra layout */
+  .gerador-container .remove-btn {
+    margin-top: 0.5rem;
+    align-self: flex-start;
+    padding: 0.5rem 0.8rem;
+  }
+
+  /* Preview box centralizado */
+  .preview-box,
+  #preview-curriculo {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+
+  /* Currículo PDF no preview */
+  #preview-curriculo {
+    padding: 10px !important;
+    margin: 0 auto !important;
+    transform: scale(0.9);
+    transform-origin: top center;
   }
 }
+
