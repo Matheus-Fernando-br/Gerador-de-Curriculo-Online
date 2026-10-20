@@ -1,0 +1,13 @@
+{
+  "name": "gerador-de-curriculo-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API de autenticação do Plano Plus do Gerador de Currículo Online",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
