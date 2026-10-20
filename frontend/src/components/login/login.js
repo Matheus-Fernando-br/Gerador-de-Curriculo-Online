@@ -1,10 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
+import LoginForm from "./LoginForm";
+import { getUsuario, isLoggedIn, whatsappLink } from "../../auth/auth";
 
 function Login() {
   const [open, setOpen] = useState(false);
   const [fixed, setFixed] = useState(false);
+  const [logado, setLogado] = useState(isLoggedIn());
   const containerRef = useRef(null);
+
+  // Atualiza quando o usuário entra ou sai
+  useEffect(() => {
+    const sync = () => setLogado(isLoggedIn());
+    window.addEventListener("auth-change", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("auth-change", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
 
   // Fecha se clicar fora
   useEffect(() => {
@@ -25,6 +40,17 @@ function Login() {
   const handleLeave = () => {
     if (!fixed) setOpen(false);
   };
+
+  // Usuário já logado: atalho direto para a área Plus
+  if (logado) {
+    return (
+      <div className="login-container">
+        <Link to="/plus" className="login-link plus">
+          <i className="bi bi-stars"></i> Área Plus · {getUsuario()}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="login-container">
@@ -54,20 +80,20 @@ function Login() {
         className={`login-submenu ${open ? "open" : ""}`}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        onFocus={() => setFixed(true)}
       >
-        <div className="login-title">Bem-vindo de volta</div>
-        <div className="login-subtitle">Entre para acessar seus currículos.</div>
-        <form className="login-form" onSubmit={(e) => e.preventDefault()}>
-          <input type="text" placeholder="Usuário" className="login-input" />
-          <input type="password" placeholder="Senha" className="login-input" />
-          <button type="submit" className="btn-login">
-            Entrar
-          </button>
-        </form>
+        <div className="login-title">Área Plus</div>
+        <div className="login-subtitle">Entre para acessar os recursos premium.</div>
+        <LoginForm />
         <p className="cadastre-text">
-          Não tem uma conta?{" "}
-          <a href="/cadastro" className="cadastre-link">
-            Cadastre-se
+          Ainda não tem acesso?{" "}
+          <a
+            href={whatsappLink("Olá! Gostaria de ter o Plano Plus do Gerador de Currículo.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cadastre-link"
+          >
+            Assine o Plano Plus
           </a>
         </p>
       </div>

@@ -1114,3 +1114,20 @@
     padding: 14px 32px;
   }
 }
+
+/* Link de login abaixo do botão do Plano Plus */
+.telaInicial .plus-login-hint {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #a1a1a6;
+}
+
+.telaInicial .plus-login-hint a {
+  color: #2997ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.telaInicial .plus-login-hint a:hover {
+  text-decoration: underline;
+}

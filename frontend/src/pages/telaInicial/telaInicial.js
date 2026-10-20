@@ -2,8 +2,9 @@
   import React, { useState, useEffect, useRef } from "react";
   import "./telaInicial.css";
   import "../../App.css";
-  import { useNavigate } from "react-router-dom";
+  import { Link, useNavigate } from "react-router-dom";
   import Login from "../../components/login/login";
+  import { whatsappLink } from "../../auth/auth";
 
   export default function TelaInicial() {
     const slides = ["/notebook.png", "/notebook01.png", "/notebook02.png", "/notebook03.png"];
@@ -273,9 +274,17 @@
                 ))}
               </ul>
             </div>
-            <button className="btn btn-primary btn-lg btn-green delay4">
-              Assine o Plano Plus por apenas R$9,90
-            </button>
+            <a
+              className="btn btn-primary btn-lg btn-green delay4"
+              href={whatsappLink("Olá! Gostaria de ter o Plano Plus do Gerador de Currículo.")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className="bi bi-whatsapp"></i> Assine o Plano Plus por apenas R$9,90
+            </a>
+            <p className="plus-login-hint delay4">
+              Já é assinante? <Link to="/entrar">Entre na Área Plus</Link>
+            </p>
           </div>
         </section>
 

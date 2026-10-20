@@ -3,8 +3,33 @@
 Aplicação completa para gerar **currículos em PDF**, totalmente no **frontend**, usando **React + html2pdf.js**.  
 O usuário preenche um formulário moderno, organizado por seções, com campos dinâmicos e animações — e o sistema monta automaticamente um currículo profissional pronto para salvar em PDF.
 
-Não utiliza mais backend ou Flask.  
-**Tudo é 100% client-side.**
+A geração do currículo é **100% client-side**. O único backend é uma API mínima
+de login (pasta `backend/`, hospedada no Render) que protege a **Área Plus**.
+
+---
+
+## ⭐ Plano Plus
+
+- Assinatura pelo WhatsApp (botão "Assine o Plano Plus" abre a conversa com a mensagem pronta)
+- Login em `/entrar` ou pelo menu **Login**; a página `/plus` só abre com sessão válida
+- Recursos da Área Plus:
+  - **Personalize títulos e seções**: renomear, reordenar, esconder e criar seções
+  - **Formatação profissional**: 4 modelos, cor de destaque, fonte, tamanho e espaçamento
+  - **Alteração de campos**: cargo, LinkedIn/portfólio e escolha do que aparece no cabeçalho
+  - **Suporte prioritário** pelo WhatsApp
+
+### Backend (`backend/`)
+
+Node puro, sem dependências. Variáveis de ambiente (definidas no Render):
+
+| Variável | Descrição |
+| --- | --- |
+| `ADMIN_USER` / `ADMIN_PASSWORD` | credenciais de acesso à Área Plus |
+| `TOKEN_SECRET` | segredo para assinar os tokens de sessão (12h) |
+| `ALLOWED_ORIGIN` | origens liberadas no CORS (padrão `*`) |
+
+Rotas: `POST /api/login`, `GET /api/me`, `GET /api/health`.
+O frontend usa `REACT_APP_API_URL` (em `frontend/.env`) para encontrar a API.
 
 ---
 
