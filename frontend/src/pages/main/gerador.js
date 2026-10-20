@@ -197,9 +197,20 @@ function Gerador() {
       </nav>
 
       <div className="form-section" id="form-section">
-        <h1 style={{ textAlign: "center" }}>GERADOR DE CURRÍCULO ONLINE</h1>
+        <header className="gerador-header">
+          <span className="gerador-eyebrow">
+            <i className="bi bi-stars"></i> Gerador de Currículo Online
+          </span>
+          <h1>Crie seu currículo.</h1>
+          <p>Preencha as seções abaixo, confira o preview e baixe seu PDF.</p>
+        </header>
 
         <form onSubmit={handleSubmit}>
+          <div className="dynamic-field">
+          <div className="section-title">
+            <span className="section-icon blue"><i className="bi bi-person-fill"></i></span>
+            Dados Pessoais
+          </div>
           <div className="input-grid">
             <div className="form-row">
               <label className="field-label">
@@ -272,10 +283,14 @@ function Gerador() {
               </label>
             </div>
           </div>
+          </div>
 
           {/* Formação Acadêmica */}
           <div className="dynamic-field">
-            <div className="section-title">Formação Acadêmica</div>
+            <div className="section-title">
+              <span className="section-icon purple"><i className="bi bi-mortarboard-fill"></i></span>
+              Formação Acadêmica
+            </div>
             {form.formacoes.map((item, i) => {
               const status = item.status || "";
               return (
@@ -341,7 +356,7 @@ function Gerador() {
                     className="remove-btn"
                     onClick={() => removeItem("formacoes", i)}
                   >
-                    Remover Formação
+                    <i className="bi bi-trash3"></i> Remover Formação
                   </button>
                   <hr className="divider" />
                 </div>
@@ -352,13 +367,16 @@ function Gerador() {
               className="add-btn"
               onClick={() => addItem("formacoes", { curso: "", escola: "", status: "", inicio: "", fim: "" })}
             >
-              + Adicionar formação
+              <i className="bi bi-plus-circle-fill"></i> Adicionar formação
             </button>
           </div>
 
           {/* Conhecimentos */}
           <div className="dynamic-field">
-            <div className="section-title">Conhecimentos</div>
+            <div className="section-title">
+              <span className="section-icon orange"><i className="bi bi-lightbulb-fill"></i></span>
+              Conhecimentos
+            </div>
             {form.conhecimentos.map((item, i) => (
               <div key={i} className="multi-input stack">
                 <label className="field-label">Descrição do Conhecimento</label>
@@ -368,19 +386,22 @@ function Gerador() {
                   onChange={(e) => handleArrayChange(i, "conhecimentos", "descricao", e.target.value)}
                 />
                 <button type="button" className="remove-btn" onClick={() => removeItem("conhecimentos", i)}>
-                  Remover conhecimento
+                  <i className="bi bi-trash3"></i> Remover conhecimento
                 </button>
                 <hr className="divider" />
               </div>
             ))}
             <button type="button" className="add-btn" onClick={() => addItem("conhecimentos", { descricao: "" })}>
-              + Adicionar conhecimento
+              <i className="bi bi-plus-circle-fill"></i> Adicionar conhecimento
             </button>
           </div>
 
           {/* Cursos */}
           <div className="dynamic-field">
-            <div className="section-title">Cursos de Qualificação</div>
+            <div className="section-title">
+              <span className="section-icon green"><i className="bi bi-journal-bookmark-fill"></i></span>
+              Cursos de Qualificação
+            </div>
             {form.cursos.map((item, i) => {
               const status = item.status || "";
               return (
@@ -433,7 +454,7 @@ function Gerador() {
                   </div>
 
                   <button type="button" className="remove-btn" onClick={() => removeItem("cursos", i)}>
-                    Remover curso
+                    <i className="bi bi-trash3"></i> Remover curso
                   </button>
                   <hr className="divider" />
                 </div>
@@ -444,13 +465,16 @@ function Gerador() {
               className="add-btn"
               onClick={() => addItem("cursos", { curso: "", instituicao: "", inicio: "", fim: "", status: "" })}
             >
-              + Adicionar curso
+              <i className="bi bi-plus-circle-fill"></i> Adicionar curso
             </button>
           </div>
 
           {/* Experiências */}
           <div className="dynamic-field">
-            <div className="section-title">Experiência Profissional</div>
+            <div className="section-title">
+              <span className="section-icon indigo"><i className="bi bi-briefcase-fill"></i></span>
+              Experiência Profissional
+            </div>
             {form.experiencias.map((item, i) => {
               const atual = !!item.trabalhoAtual;
               return (
@@ -475,7 +499,7 @@ function Gerador() {
                   </label>
 
                   <button type="button" className="remove-btn" onClick={() => removeItem("experiencias", i)}>
-                    Remover experiência
+                    <i className="bi bi-trash3"></i> Remover experiência
                   </button>
 
                   <label className="field-label">
@@ -498,25 +522,17 @@ function Gerador() {
                     </label>
                   </div>
 
-                  <label
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      marginLeft: "2vw",
-                      marginTop: "2.7rem",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <label className="switch-label">
                     <input
                       type="checkbox"
+                      className="switch"
                       checked={atual}
                       onChange={(e) => handleArrayChange(i, "experiencias", "trabalhoAtual", e.target.checked)}
                     />
                     Trabalho atual
                   </label>
 
-                  <div className="multi-input stack" style={{ marginTop: "0.5rem" }}>
+                  <div className="multi-input stack atribuicoes">
                     <label className="field-label">Atribuições</label>
 
                     {(item.atribuicoes || []).map((atr, j) => (
@@ -532,14 +548,15 @@ function Gerador() {
                         />
                         <button
                           type="button"
-                          className="remove-btn"
+                          className="remove-btn icon-only"
+                          aria-label="Remover atribuição"
                           onClick={() => {
                             const exp = [...form.experiencias];
                             exp[i].atribuicoes.splice(j, 1);
                             setForm((prev) => ({ ...prev, experiencias: exp }));
                           }}
                         >
-                          ✕
+                          <i className="bi bi-x-lg"></i>
                         </button>
                       </div>
                     ))}
@@ -553,7 +570,7 @@ function Gerador() {
                         setForm((prev) => ({ ...prev, experiencias: exp }));
                       }}
                     >
-                      + Adicionar atribuição
+                      <i className="bi bi-plus-circle-fill"></i> Adicionar atribuição
                     </button>
                   </div>
 
@@ -568,13 +585,16 @@ function Gerador() {
                 addItem("experiencias", { empresa: "", cargo: "", trabalhoAtual: false, inicio: "", fim: "", atribuicoes: [] })
               }
             >
-              + Adicionar experiência
+              <i className="bi bi-plus-circle-fill"></i> Adicionar experiência
             </button>
           </div>
 
           {/* Idiomas */}
           <div className="dynamic-field">
-            <div className="section-title">Idiomas</div>
+            <div className="section-title">
+              <span className="section-icon pink"><i className="bi bi-translate"></i></span>
+              Idiomas
+            </div>
             {form.idiomas.map((item, i) => (
               <div key={i} className="multi-input">
                 <label className="field-label">
@@ -626,7 +646,7 @@ function Gerador() {
                 </label>
 
                 <button type="button" className="remove-btn" onClick={() => removeItem("idiomas", i)}>
-                  Remover idioma
+                  <i className="bi bi-trash3"></i> Remover idioma
                 </button>
 
                 <hr className="divider" />
@@ -634,13 +654,16 @@ function Gerador() {
             ))}
 
             <button type="button" className="add-btn" onClick={() => addItem("idiomas", { idioma: "", nivel: "" })}>
-              + Adicionar idioma
+              <i className="bi bi-plus-circle-fill"></i> Adicionar idioma
             </button>
           </div>
 
           {/* CNH: botão para adicionar (aparece como dynamic-field abaixo de idiomas) */}
          <div className="dynamic-field form-row">
-          <div className="section-title">CNH</div>
+          <div className="section-title">
+              <span className="section-icon teal"><i className="bi bi-car-front-fill"></i></span>
+              CNH
+            </div>
 
           {!cnhVisible ? (
             <button
@@ -648,7 +671,7 @@ function Gerador() {
               className="add-btn"
               onClick={() => setCnhVisible(true)}
             >
-              + Adicionar CNH
+              <i className="bi bi-plus-circle-fill"></i> Adicionar CNH
             </button>
           ) : (
             <div className="multi-input stack" style={{ width: "100%" }}>
@@ -670,36 +693,38 @@ function Gerador() {
                   setCnhVisible(false);
                 }}
               >
-                Remover CNH
+                <i className="bi bi-trash3"></i> Remover CNH
               </button>
             </div>
           )}
         </div>
 
                 {/* Caixa do botão Preview (borda branca) */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            border: "2px solid #fff",
-            padding: "8px 12px",
-            borderRadius: "8px",
-            width: "fit-content",
-            margin: "10px auto 20px auto",
-            cursor: "pointer",
-            background: "transparent",
-          }}
-          onClick={togglePreview}
-        >
-          <i className="bi bi-eye" style={{ fontSize: "18px", color: "#fff" }} />
-          <span style={{ color: "#fff", fontWeight: 700 }} id="#preview-curriculo">Preview do Currículo</span>
-        </div>
-
-          <button type="submit" disabled={loading} className="submit-btn" style={{ marginTop: "1.6rem" }}>
-            {loading ? "Gerando..." : "Gerar Currículo"}
+        <div className="actions-bar">
+          <button
+            type="button"
+            className={`preview-toggle ${previewOpen ? "active" : ""}`}
+            onClick={togglePreview}
+          >
+            <i className={`bi ${previewOpen ? "bi-eye-slash" : "bi-eye"}`} />
+            <span id="#preview-curriculo">Preview do Currículo</span>
           </button>
+
+          <button type="submit" disabled={loading} className={`submit-btn ${loading ? "loading" : ""}`}>
+            {loading ? (
+              <>
+                <span className="spinner" /> Gerando...
+              </>
+            ) : (
+              <>
+                <i className="bi bi-file-earmark-arrow-down-fill"></i> Gerar Currículo
+              </>
+            )}
+          </button>
+        </div>
         </form>
+
+        <div className={`preview-stage ${previewOpen ? "open" : ""}`}>
 
         {/* PREVIEW: escondido por padrão; aparece quando previewOpen === true */}
         {/** Este elemento é o que será convertido para PDF (id="preview-curriculo") */}
@@ -892,6 +917,7 @@ function Gerador() {
               </div>
             </div>
           </section>
+        </div>
         </div>
         </div>
         </div>

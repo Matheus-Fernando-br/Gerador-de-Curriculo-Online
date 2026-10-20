@@ -30,14 +30,18 @@ function CadastroLogin() {
         </div>
         <div className="right-section cadastro-login-nav">
           <a href="/gerador">
-            Voltar
+            <i className="bi bi-chevron-left"></i>Voltar
           </a>
         </div>
       </nav>
 
       <div className="app-container">
-        <section className="form-section">
+        <section className="form-section auth-card">
+          <div className="auth-icon">
+            <i className="bi bi-person-plus-fill"></i>
+          </div>
           <h1>Crie sua conta</h1>
+          <p className="auth-sub">Salve seus currículos e acesse de qualquer lugar.</p>
 
           <form className="formulario" onSubmit={handleSubmit}>
             <div className="field-label">

@@ -1,23 +1,104 @@
-/* Sobrescreve o app.css apenas para cadastro */
+/* Sobrescreve o App.css apenas para cadastro */
 .cadastro-login-nav {
-  position: static !important;   /* tira o absolute */
-  transform: translateY(0) !important;  /* remove o translate */
-  opacity: 1 !important;         /* garante visibilidade */
-  pointer-events: auto !important; /* garante que seja clicável */
-  display: flex !important;      /* mantém o flex */
-  flex-direction: row !important; /* alinha horizontalmente */
-  width: auto !important;        /* largura natural */
-  background: none !important;   /* remove fundo preto */
+  position: static !important;
+  transform: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  width: auto !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
   padding: 0 !important;
-  text-align: left !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
   gap: 1rem !important;
 }
 
-.cadastro-link {
-  font-family: var(--font-inputs);
-  font-weight: 600;
-  color: var(--cor-branca);
-  text-decoration: none;
-  margin-top: 4vh;
+.gerador-container .app-container {
+  min-height: 100vh;
+  align-items: center;
+}
+
+.gerador-container .auth-card {
+  max-width: 440px;
+  padding: 40px 36px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   text-align: center;
+}
+
+.gerador-container .auth-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  background: linear-gradient(135deg, #2997ff, #af52de);
+  box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+  animation: iconPop 0.8s var(--ease-spring) 0.2s both;
+}
+
+@keyframes iconPop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.gerador-container .auth-card h1 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.gerador-container .auth-sub {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: var(--text-2);
+}
+
+.gerador-container .auth-card .formulario {
+  text-align: left;
+}
+
+.gerador-container .auth-card .submit-btn {
+  margin-top: 28px;
+}
+
+.cadastro-link {
+  font-family: var(--font-text);
+  font-size: 14px;
+  color: var(--text-2);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cadastro-link a {
+  color: var(--blue);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.cadastro-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .gerador-container .auth-card {
+    padding: 32px 22px;
+  }
 }

@@ -1,162 +1,242 @@
-@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=BBH+Sans+Hegarty&family=Fjalla+One&display=swap');
-
-:root {
-  --cor-bg: linear-gradient(180deg, #0b2494d8 0%, #555 70%);
-  --cor-primaria: #d10000;
-  --cor-primaria-apagada: #ff0000c2;
-  --cor-secundaria: #00580f;
-  --cor-secundaria-apagada: #0ad62c96;
-  --cor-branca: #ffffff;
-  --cor-branca-apagada: rgba(255, 255, 255, 0.726);
-  --cor-branca-apagada-2: rgba(255, 255, 255, 0.158);
-  --cor-preta: #000;
-  --cor-preta-apagada: #000000e5;
-  --cor-cinza:#707070ab;
-  --cor-fundo:  rgba(100, 100, 100, 0.082);
-  --font-main: "Fjalla One", sans-serif;
-  --font-inputs: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --font-title: 'BBH Sans Hegarty', sans-serif;
-  --espaco-linha-menu: 1vh;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-
-/* Navbar fixa no topo */
+/* ================================
+   NAVBAR (vidro fosco estilo Apple)
+================================ */
 .top-navbar {
   position: fixed;
-  left: 0;
   top: 0;
-  width: 100%;
-  height: 12vh;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
   display: flex;
-  border-bottom: 2px solid var(--cor-branca-apagada);
-  justify-content: space-between;
-  font-family: var(--font-main);
   align-items: center;
-  padding: 1rem 2rem;
+  justify-content: space-between;
+  padding: 0 max(20px, calc((100vw - 1120px) / 2));
+  background: rgba(251, 251, 253, 0.72);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-text);
   z-index: 1000;
-  backdrop-filter: blur(10px);
+  animation: navIn 0.8s var(--ease-out) both;
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.top-navbar.scrolled {
+  background: rgba(251, 251, 253, 0.86);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+@keyframes navIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.top-navbar .left-section a {
+  display: flex;
+  align-items: center;
 }
 
 .top-navbar .left-section .logo {
-  height: 45px;
-  border-radius: 10px;
-    transition: all 0.3s ease-in-out;
+  height: 36px;
+  border-radius: 9px;
+  display: block;
+  transition: transform 0.45s var(--ease-spring), box-shadow 0.3s var(--ease);
 }
 
 .top-navbar .left-section .logo:hover {
-  transform: scale(0.97);
-  box-shadow: 0 0 6px var(--cor-branca);
+  transform: scale(1.07) rotate(-2deg);
+  box-shadow: var(--shadow);
 }
 
 .top-navbar .right-section {
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 4px;
 }
 
-.top-navbar .right-section a {
-  color: var(--cor-branca);
+.top-navbar .right-section > a {
+  position: relative;
+  color: var(--text);
+  opacity: 0.8;
   text-decoration: none;
+  font-size: 14px;
   font-weight: 500;
-  transition: all 0.3s;
+  letter-spacing: -0.01em;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  transition: background 0.25s var(--ease), opacity 0.25s var(--ease);
 }
 
-.top-navbar .right-section a:hover {
-  color: var(--cor-secundaria);
-  transform: scale(0.98);
+.top-navbar .right-section > a:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
 }
 
-.top-navbar .right-section a::after,
-.top-navbar .right-section a::before {
-  content: '';
-  display: block;
-  width: 100%;
-  border: solid 1px var(--cor-branca);
-  transition: all 0.2s ease-in-out;
-  transform: translateY(0); /* inicial sem deslocamento */
-}
-
-.top-navbar .right-section a::after {
-  margin-top: var(--espaco-linha-menu); /* só um espaçamento inicial */
-}
-
-.top-navbar .right-section a::before {
-  margin-bottom: var(--espaco-linha-menu); /* só um espaçamento inicial */
-}
-
-.top-navbar .right-section a:hover::after {
-  border-color: var(--cor-secundaria);
-  transform: translateY(4px); /* move para baixo sem mexer na altura do layout */
-}
-
-.top-navbar .right-section a:hover::before {
-  border-color: var(--cor-secundaria);
-  transform: translateY(-4px); /* move para cima sem mexer na altura do layout */
-}
-
-.top-navbar .right-section a i {
-  margin-right: 0.5rem;
+.top-navbar .right-section > a i {
+  margin-right: 6px;
 }
 
 /* MENU HAMBÚRGUER */
-.telaInicial .menu-toggle, .gerador-container .menu-toggle {
+.top-navbar .menu-toggle {
   display: none;
-  transform: translateX(5vw);
-  font-size: 2.5rem;
-  color: var(--cor-branca);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--text);
   cursor: pointer;
+  transition: background 0.25s var(--ease), transform 0.3s var(--ease-spring);
 }
 
-/* --- Versão Mobile --- */
+.top-navbar .menu-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.top-navbar .menu-toggle:active {
+  transform: scale(0.9);
+}
+
+/* Barra de progresso de rolagem */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  background: var(--gradient-brand);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ================================
+   BOTÕES GLOBAIS
+================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-text);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease),
+    transform 0.35s var(--ease-spring), box-shadow 0.3s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn i {
+  transition: transform 0.35s var(--ease-spring);
+}
+
+.btn:hover i.bi-arrow-right,
+.btn:hover i.bi-chevron-right {
+  transform: translateX(4px);
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.28);
+}
+
+.btn-primary:hover {
+  background: var(--blue-hover);
+  box-shadow: 0 10px 30px rgba(0, 113, 227, 0.38);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--blue);
+  box-shadow: inset 0 0 0 1.5px var(--blue);
+}
+
+.btn-secondary:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.btn-dark {
+  background: var(--text);
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+.btn-link {
+  background: none;
+  color: var(--blue);
+  padding: 12px 8px;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   MOBILE
+================================ */
 @media (max-width: 900px) {
-  .telaInicial .top-navbar, .gerador-container .top-navbar {
-    padding: 1rem 2rem;
-    height: 12vh;
+  .top-navbar {
+    padding: 0 16px;
   }
 
-  .telaInicial .left-section, .gerador-container .left-section {
-    transform: translateX(-5vw);
+  .top-navbar .menu-toggle {
+    display: flex;
   }
 
-  .telaInicial .menu-toggle, .gerador-container .menu-toggle {
-    display: block;
-  }
-
-  .telaInicial .right-section, .gerador-container .right-section {
+  .top-navbar .right-section {
     position: absolute;
-    top: 70px;
-    right: 0;
-    background-color: var(--cor-preta);
+    top: calc(var(--nav-h) + 8px);
+    left: 12px;
+    right: 12px;
     flex-direction: column;
-    width: 100%;
-    text-align: center;
-    gap: 1.5rem;
-    padding: 2rem 0;
-    transform: translateY(-100%);
+    align-items: stretch;
+    gap: 2px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    backdrop-filter: saturate(180%) blur(24px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-12px) scale(0.98);
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s ease-in-out;
-  }
-  .telaInicial .right-section {
-    gap: 1rem;
+    transition: transform 0.35s var(--ease-out), opacity 0.25s var(--ease);
   }
 
-  .gerador-container .top-navbar {
-    background-color: var(--cor-preta);
-  }
-
-  .telaInicial .right-section.open, .gerador-container .right-section.open {
-    transform: translateY(0);
+  .top-navbar .right-section.open {
+    transform: translateY(0) scale(1);
     opacity: 1;
     pointer-events: auto;
   }
 
-  .telaInicial .right-section a, .gerador-container .right-section a {
-    font-size: 1.1rem;
+  .top-navbar .right-section > a {
+    font-size: 17px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
   }
-
 }
-

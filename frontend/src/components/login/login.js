@@ -55,6 +55,8 @@ function Login() {
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
       >
+        <div className="login-title">Bem-vindo de volta</div>
+        <div className="login-subtitle">Entre para acessar seus currículos.</div>
         <form className="login-form" onSubmit={(e) => e.preventDefault()}>
           <input type="text" placeholder="Usuário" className="login-input" />
           <input type="password" placeholder="Senha" className="login-input" />

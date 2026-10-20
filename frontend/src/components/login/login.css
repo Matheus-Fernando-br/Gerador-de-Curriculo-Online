@@ -1,109 +1,175 @@
-@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
-
 .login-container {
   position: relative;
   display: inline-block;
+  margin-left: 8px;
 }
 
 .login-link {
-  color: var(--cor-branca);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  background: var(--text);
   text-decoration: none;
+  font-size: 14px;
   font-weight: 500;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.25s var(--ease), transform 0.35s var(--ease-spring);
 }
 
-.login-link:hover, .login-link.open {
-  color: var(--cor-secundaria);
-  transform: scale(0.98);
+.login-link:hover,
+.login-link.open {
+  background: var(--blue);
+}
+
+.login-link:active {
+  transform: scale(0.95);
 }
 
 .login-submenu {
   position: absolute;
-  top: 100%;
-  right: -2vw;
-  background: url('../../../public/fundo.jpg');
-  border: 1px solid var(--cor-branca-apagada-2);
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  padding: 1.5rem;
-  width: 20vw;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 320px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-50px);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 0.25s var(--ease), transform 0.35s var(--ease-out);
   z-index: 100;
+}
+
+/* ponte invisível para o hover não fechar o menu */
+.login-submenu::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
 .login-submenu.open {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(20px);
+  transform: translateY(0) scale(1);
+}
+
+.login-title {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.login-subtitle {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 18px;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
 }
 
 .login-input {
-  background: var(--cor-branca);
-  border: 1px solid var(--cor-apagada);
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  color: var(--cor-preta);
-  font-family: var(--font-inputs);
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--text);
+  font-family: var(--font-text);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 
 .login-input:focus {
   outline: none;
-  border-color: var(--cor-secundaria);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px var(--blue-soft);
 }
 
 .btn-login {
-  background: var(--cor-secundaria);
-  color: var(--cor-branca);
+  margin-top: 4px;
+  background: var(--blue);
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-text);
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: var(--font-main);
+  transition: background 0.25s var(--ease), transform 0.3s var(--ease-spring);
 }
 
 .btn-login:hover {
-  background: var(--cor-secundaria-apagada);
+  background: var(--blue-hover);
+}
+
+.btn-login:active {
+  transform: scale(0.97);
 }
 
 .cadastre-text {
-  font-size: 0.85rem;
-  color: var(--cor-branca-apagada);
-  margin-top: 1rem;
+  font-size: 13px;
+  color: var(--text-2);
+  margin-top: 16px;
   text-align: center;
 }
 
 .cadastre-link {
-  color: var(--cor-secundaria);
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.cadastre-link:hover {
   text-decoration: underline;
 }
 
 /* Responsivo */
 @media (max-width: 900px) {
+  .login-container {
+    margin: 8px 0 0;
+    display: block;
+  }
+
+  .login-link {
+    display: none;
+  }
+
   .login-submenu {
     position: static;
     width: 100%;
+    padding: 16px 4px 4px;
     transform: none;
     opacity: 1;
     pointer-events: auto;
     box-shadow: none;
     background: transparent;
     border: none;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .cadastre-text {
-    margin-top: .4rem;
+    margin-top: 10px;
   }
-
 }
